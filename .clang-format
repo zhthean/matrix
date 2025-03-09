@@ -1,0 +1,10 @@
+
+Language: Cpp
+BasedOnStyle:  LLVM
+IndentWidth: 2
+ColumnLimit: 120
+AlignAfterOpenBracket: BlockIndent
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments: None
+AlignConsecutiveBitFields: Consecutive
+AlignConsecutiveMacros: Consecutive
