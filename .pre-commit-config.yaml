@@ -1,0 +1,16 @@
+minimum_pre_commit_version: "4"
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+    - id: check-yaml
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v19.1.7
+    hooks:
+    - id: clang-format
+      entry: clang-format -i
+      args: ["--style=file"]
+      types_or: [c, c++]
