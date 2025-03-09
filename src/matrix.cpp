@@ -123,7 +123,8 @@ auto Matrix<T>::operator*(const Matrix<U> &matrix) const -> Matrix<std::common_t
   for (unsigned int row = 0; row < m_row_size; row++) {
     for (unsigned int col = 0; col < matrix.get_col_size(); col++) {
       for (unsigned int factor_row = 0; factor_row < matrix.get_row_size(); factor_row++) {
-        result[row][col] += m_elements[row][factor_row] * matrix[factor_row][col];
+        result[row][col]    += 
+            m_elements[row][factor_row] * matrix[factor_row][col];
       }
     }
   }
