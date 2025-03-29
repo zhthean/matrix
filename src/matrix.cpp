@@ -1,20 +1,24 @@
 ﻿#include <cstdint>
 #include <stdexcept>
 
-#include "exceptions/matrix_exceptions.h"
 #include "matrix.h"
+#include "matrix_exceptions.h"
+#include "utils/comparison.h"
+#include "utils/matrix_func.h"
+
+template <typename T> Matrix<T>::Matrix() : m_row_size(0), m_col_size(0) {}
 
 template <typename T>
 Matrix<T>::Matrix(const unsigned int row_size, const unsigned int col_size)
     : m_row_size(row_size), m_col_size(col_size), m_elements(row_size, std::vector<T>(col_size, 0)) {}
 
 template <typename T> Matrix<T>::Matrix(const std::vector<std::vector<T>> &elements) {
-  unsigned int row_size = elements.size();
+  unsigned int row_size = static_cast<unsigned int>(elements.size());
   if (elements.size() <= 0) {
     throw InvalidMatrixDimensionException("The row of the Matrix should not be empty.");
   }
 
-  unsigned int col_size = elements[0].size();
+  unsigned int col_size = static_cast<unsigned int>(elements[0].size());
   for (const auto &row : elements) {
     if (row.size() != col_size) {
       throw InvalidMatrixDimensionException("All rows must have the same number of columns.");
@@ -28,13 +32,13 @@ template <typename T> Matrix<T>::Matrix(const std::vector<std::vector<T>> &eleme
 
 template <typename T>
 template <typename U>
-Matrix<T>::Matrix(const Matrix<U> &matrix)
-    : m_row_size(matrix.get_row_size()), m_col_size(matrix.get_col_size()),
-      m_elements(matrix.get_row_size(), std::vector<T>(matrix.get_col_size())) {
+Matrix<T>::Matrix(const Matrix<U> &other)
+    : m_row_size(other.get_row_size()), m_col_size(other.get_col_size()),
+      m_elements(other.get_row_size(), std::vector<T>(other.get_col_size())) {
 
-  for (unsigned int row = 0; row < matrix.get_row_size(); row++) {
-    for (unsigned int col = 0; col < matrix.get_col_size(); col++) {
-      m_elements[row][col] = static_cast<T>(matrix[row][col]);
+  for (unsigned int row = 0; row < other.get_row_size(); row++) {
+    for (unsigned int col = 0; col < other.get_col_size(); col++) {
+      m_elements[row][col] = static_cast<T>(other[row][col]);
     }
   }
 }
@@ -169,7 +173,7 @@ auto Matrix<T>::element_wise_product(const Matrix<U> &matrix) const -> Matrix<st
   return result;
 }
 
-template <typename T> Matrix<T> Matrix<T>::transpose() const {
+template <typename T> Matrix<T> Matrix<T>::transpose() {
   Matrix<T> transposed(m_col_size, m_row_size);
 
   for (unsigned int row = 0; row < m_col_size; row++) {
@@ -179,6 +183,114 @@ template <typename T> Matrix<T> Matrix<T>::transpose() const {
   }
 
   return transposed;
+}
+
+template <typename T> double Matrix<T>::determinant() {
+  if (m_row_size != m_col_size) {
+    throw MatrixNonSquareException("The matrix is not a square matrix.");
+  }
+
+  if (m_row_size == 1) {
+    return static_cast<double>(m_elements[0][0]);
+  }
+
+  if (m_row_size == 2) {
+    return static_cast<double>(m_elements[0][0] * m_elements[1][1] - m_elements[0][1] * m_elements[1][0]);
+  }
+
+  if (m_row_size == 3) {
+    return static_cast<double>(
+        m_elements[0][0] * (m_elements[1][1] * m_elements[2][2] - m_elements[1][2] * m_elements[2][1]) -
+        m_elements[0][1] * (m_elements[1][0] * m_elements[2][2] - m_elements[1][2] * m_elements[2][0]) +
+        m_elements[0][2] * (m_elements[1][0] * m_elements[2][1] - m_elements[1][1] * m_elements[2][0])
+    );
+  }
+
+  try {
+    auto [eliminated_matrix, num_swaps] = gaussian_elimination(*this);
+
+    double det = 1;
+    for (unsigned int pivot = 0; pivot < m_row_size; pivot++) {
+      det *= eliminated_matrix[pivot][pivot];
+    }
+
+    return std::pow(-1, num_swaps) * det;
+  } catch (MatrixSingularException &) {
+    return 0;
+  }
+}
+
+template <typename T> Matrix<double> Matrix<T>::inverse() {
+  if (m_row_size != m_col_size) {
+    throw MatrixNonSquareException("The matrix is not a square matrix.");
+  }
+
+  const double det = determinant();
+
+  if (det == 0) {
+    throw MatrixNonInvertibleException("The matrix is singular and hence is not invertible.");
+  }
+
+  Matrix<double> inversed(m_row_size, m_col_size);
+
+  if (m_row_size == 1) {
+    inversed[0][0] = 1.0 / static_cast<double>(m_elements[0][0]);
+    return inversed;
+  }
+
+  if (m_row_size == 2) {
+    inversed[0][0] = m_elements[1][1] / det;
+    inversed[0][1] = -m_elements[0][1] / det;
+    inversed[1][0] = -m_elements[1][0] / det;
+    inversed[1][1] = m_elements[0][0] / det;
+    return inversed;
+  }
+
+  return gaussian_elimination_inverse(*this);
+}
+
+template <typename T>
+void Matrix<T>::swap(const unsigned int chosen_index, const unsigned int swapped_index, const char axis) {
+  if (axis == 'r') {
+    if (chosen_index >= m_row_size || swapped_index >= m_row_size) {
+      throw std::out_of_range(
+          "The matrix has " + std::to_string(m_row_size) + " rows, but tried to swap row at index " +
+          std::to_string(chosen_index) + " and " + std::to_string(swapped_index)
+      );
+    }
+    m_elements[chosen_index].swap(m_elements[swapped_index]);
+  } else if (axis == 'c') {
+    if (chosen_index >= m_col_size || swapped_index >= m_col_size) {
+      throw std::out_of_range(
+          "The matrix has " + std::to_string(m_col_size) + " columns, but tried to swap column at index " +
+          std::to_string(chosen_index) + " and " + std::to_string(swapped_index)
+      );
+    }
+
+    for (unsigned int row = 0; row < m_row_size; row++) {
+      std::swap(m_elements[row][chosen_index], m_elements[row][swapped_index]);
+    }
+  } else {
+    throw std::invalid_argument("The axis should be either 'r'(row) or 'c'(column).");
+  }
+}
+
+template <typename T> template <typename U> bool Matrix<T>::operator==(const Matrix<U> &matrix) const {
+  if (m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size()) {
+    return false;
+  }
+
+  double epsilon = std::is_same<T, float>::value ? 1e-5 : 1e-9;
+
+  for (unsigned int row = 0; row < m_row_size; row++) {
+    for (unsigned int col = 0; col < m_col_size; col++) {
+      if (!numeric_almost_equal(matrix[row][col], m_elements[row][col], epsilon)) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
 
 template <typename T, typename U>
@@ -296,3 +408,11 @@ INSTANTIATION_MATRIX_FUNCTIONS(long double, long long)
 INSTANTIATION_MATRIX_FUNCTIONS(long double, float)
 INSTANTIATION_MATRIX_FUNCTIONS(long double, double)
 INSTANTIATION_MATRIX_FUNCTIONS(long double, long double)
+
+// template std::ostream &operator<<(std::ostream&, const Matrix<short> &);
+// template std::ostream &operator<<(std::ostream&, const Matrix<int> &);
+// template std::ostream &operator<<(std::ostream &, const Matrix<long> &);
+// template std::ostream &operator<<(std::ostream &, const Matrix<long long> &);
+// template std::ostream &operator<<(std::ostream &, const Matrix<float> &);
+// template std::ostream &operator<<(std::ostream &, const Matrix<double> &);
+// template std::ostream &operator<<(std::ostream &, const Matrix<long double> &);

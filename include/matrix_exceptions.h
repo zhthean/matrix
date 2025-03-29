@@ -19,4 +19,19 @@ public:
   explicit MatrixMismatchException(const std::string &msg) : MatrixExceptions(msg) {}
 };
 
+class MatrixNonSquareException : public MatrixExceptions {
+public:
+  explicit MatrixNonSquareException(const std::string &msg) : MatrixExceptions(msg) {}
+};
+
+class MatrixSingularException : public MatrixExceptions {
+public:
+  explicit MatrixSingularException(const std::string &msg) : MatrixExceptions(msg) {}
+};
+
+class MatrixNonInvertibleException : public MatrixExceptions {
+public:
+  explicit MatrixNonInvertibleException(const std::string &msg) : MatrixExceptions(msg) {}
+};
+
 #endif // MATRIX_EXCEPTIONS_H
