@@ -55,10 +55,10 @@ public:
 
   template <typename U> auto element_wise_product(const Matrix<U> &matrix) const -> Matrix<std::common_type_t<T, U>>;
 
-  Matrix<T> transpose();
+  Matrix<T> transpose() const;
 
-  double determinant();
-  Matrix<double> inverse();
+  double determinant() const;
+  Matrix<double> inverse() const;
 
   void swap(const unsigned int chosen_index, const unsigned int swapped_index, const char axis = "r");
 

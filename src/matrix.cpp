@@ -173,7 +173,7 @@ auto Matrix<T>::element_wise_product(const Matrix<U> &matrix) const -> Matrix<st
   return result;
 }
 
-template <typename T> Matrix<T> Matrix<T>::transpose() {
+template <typename T> Matrix<T> Matrix<T>::transpose() const {
   Matrix<T> transposed(m_col_size, m_row_size);
 
   for (unsigned int row = 0; row < m_col_size; row++) {
@@ -185,7 +185,7 @@ template <typename T> Matrix<T> Matrix<T>::transpose() {
   return transposed;
 }
 
-template <typename T> double Matrix<T>::determinant() {
+template <typename T> double Matrix<T>::determinant() const {
   if (m_row_size != m_col_size) {
     throw MatrixNonSquareException("The matrix is not a square matrix.");
   }
@@ -220,7 +220,7 @@ template <typename T> double Matrix<T>::determinant() {
   }
 }
 
-template <typename T> Matrix<double> Matrix<T>::inverse() {
+template <typename T> Matrix<double> Matrix<T>::inverse() const {
   if (m_row_size != m_col_size) {
     throw MatrixNonSquareException("The matrix is not a square matrix.");
   }
