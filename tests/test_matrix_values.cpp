@@ -342,3 +342,30 @@ INSTANTIATE_TEST_SUITE_P(
         std::make_tuple(sample_double_2x3, sample_chosen_index, sample_target_index, 'c', expected_swap_col_2x3)
     )
 );
+
+class MatrixSwapNegativeTest
+    : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>, unsigned int, unsigned int, char>> {};
+
+TEST_P(MatrixSwapNegativeTest, MatrixSwap) {
+  auto test_martix = std::get<0>(GetParam());
+  auto chosen_index = std::get<1>(GetParam());
+  auto target_index = std::get<2>(GetParam());
+  auto axis = std::get<3>(GetParam());
+
+  EXPECT_THROW(test_martix.swap(chosen_index, target_index, axis), std::out_of_range);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    MatrixSwapNegativeTest, MatrixSwapNegativeTest,
+    ::testing::Values(
+        std::make_tuple(sample_double_3x3, 0, 4, 'r'), std::make_tuple(sample_double_3x2, 4, 1, 'r'),
+        std::make_tuple(sample_double_2x3, 4, 5, 'r'), std::make_tuple(sample_double_3x3, 0, 4, 'c'),
+        std::make_tuple(sample_double_3x2, 4, 1, 'c'), std::make_tuple(sample_double_2x3, 4, 5, 'c')
+    )
+);
+
+TEST(MatrixSwapInvalidAxisTest, MatrixSwap) {
+  auto test_martix = sample_double_3x2;
+
+  EXPECT_THROW(test_martix.swap(0, 1, 'a'), std::invalid_argument);
+}
