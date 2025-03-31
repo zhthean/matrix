@@ -4,9 +4,10 @@
 #include <iostream>
 #include <tuple>
 
+#include "exceptions/matrix_exceptions.h"
 #include "matrix.h"
-#include "matrix_exceptions.h"
 
+namespace supp_math {
 std::tuple<Matrix<double>, int> gaussian_elimination(Matrix<double> matrix) {
   int num_swaps = 0;
 
@@ -99,5 +100,6 @@ Matrix<double> gaussian_elimination_inverse(Matrix<double> matrix) {
 
   return inverse_matrix;
 }
+} // namespace supp_math
 
 #endif // MATRIX_FUNC_H

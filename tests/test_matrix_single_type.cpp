@@ -10,7 +10,7 @@ protected:
   const unsigned int chosen_index = 0;
   const unsigned int target_index = 2;
 
-  Matrix<T> test_matrix = Matrix<T>({
+  supp_math::Matrix<T> test_matrix = supp_math::Matrix<T>({
       {3,  5, -1},
       {0, -5, -4},
       {8,  1,  3}
@@ -18,31 +18,31 @@ protected:
 
   double expected_determinant = -233;
 
-  Matrix<T> expected_scalar_multi = Matrix<T>({
+  supp_math::Matrix<T> expected_scalar_multi = supp_math::Matrix<T>({
       { 9,  15,  -3},
       { 0, -15, -12},
       {24,   3,   9}
   });
 
-  Matrix<T> expected_transposed = Matrix<T>({
+  supp_math::Matrix<T> expected_transposed = supp_math::Matrix<T>({
       { 3,  0, 8},
       { 5, -5, 1},
       {-1, -4, 3}
   });
 
-  Matrix<double> expected_inversed = Matrix<double>({
+  supp_math::Matrix<double> expected_inversed = supp_math::Matrix<double>({
       { 11 / 233.0,  16 / 233.0,  25 / 233.0},
       { 32 / 233.0, -17 / 233.0, -12 / 233.0},
       {-40 / 233.0, -37 / 233.0,  15 / 233.0}
   });
 
-  Matrix<T> expected_row_swapped = Matrix<T>({
+  supp_math::Matrix<T> expected_row_swapped = supp_math::Matrix<T>({
       {8,  1,  3},
       {0, -5, -4},
       {3,  5, -1}
   });
 
-  Matrix<T> expected_col_swapped = Matrix<T>({
+  supp_math::Matrix<T> expected_col_swapped = supp_math::Matrix<T>({
       {-1,  5, 3},
       {-4, -5, 0},
       { 3,  1, 8}

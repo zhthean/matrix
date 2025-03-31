@@ -1,27 +1,27 @@
 ﻿#include <cstdint>
 #include <stdexcept>
 
+#include "exceptions/matrix_exceptions.h"
 #include "matrix.h"
-#include "matrix_exceptions.h"
 #include "utils/comparison.h"
 #include "utils/matrix_func.h"
 
-template <typename T> Matrix<T>::Matrix() : m_row_size(0), m_col_size(0) {}
+template <typename T> supp_math::Matrix<T>::Matrix() : m_row_size(0), m_col_size(0) {}
 
 template <typename T>
-Matrix<T>::Matrix(const unsigned int row_size, const unsigned int col_size)
+supp_math::Matrix<T>::Matrix(const unsigned int row_size, const unsigned int col_size)
     : m_row_size(row_size), m_col_size(col_size), m_elements(row_size, std::vector<T>(col_size, 0)) {}
 
-template <typename T> Matrix<T>::Matrix(const std::vector<std::vector<T>> &elements) {
+template <typename T> supp_math::Matrix<T>::Matrix(const std::vector<std::vector<T>> &elements) {
   unsigned int row_size = static_cast<unsigned int>(elements.size());
   if (elements.size() <= 0) {
-    throw InvalidMatrixDimensionException("The row of the Matrix should not be empty.");
+    throw supp_math::InvalidMatrixDimensionException("The row of the Matrix should not be empty.");
   }
 
   unsigned int col_size = static_cast<unsigned int>(elements[0].size());
   for (const auto &row : elements) {
     if (row.size() != col_size) {
-      throw InvalidMatrixDimensionException("All rows must have the same number of columns.");
+      throw supp_math::InvalidMatrixDimensionException("All rows must have the same number of columns.");
     }
   }
 
@@ -32,7 +32,7 @@ template <typename T> Matrix<T>::Matrix(const std::vector<std::vector<T>> &eleme
 
 template <typename T>
 template <typename U>
-Matrix<T>::Matrix(const Matrix<U> &other)
+supp_math::Matrix<T>::Matrix(const supp_math::Matrix<U> &other)
     : m_row_size(other.get_row_size()), m_col_size(other.get_col_size()),
       m_elements(other.get_row_size(), std::vector<T>(other.get_col_size())) {
 
@@ -43,11 +43,11 @@ Matrix<T>::Matrix(const Matrix<U> &other)
   }
 }
 
-template <typename T> unsigned int Matrix<T>::get_row_size() const { return m_row_size; }
+template <typename T> unsigned int supp_math::Matrix<T>::get_row_size() const { return m_row_size; }
 
-template <typename T> unsigned int Matrix<T>::get_col_size() const { return m_col_size; }
+template <typename T> unsigned int supp_math::Matrix<T>::get_col_size() const { return m_col_size; }
 
-template <typename T> std::vector<T> &Matrix<T>::operator[](const unsigned int index) {
+template <typename T> std::vector<T> &supp_math::Matrix<T>::operator[](const unsigned int index) {
   if (index >= m_row_size) {
     throw std::out_of_range(
         "The matrix has " + std::to_string(m_row_size) + " rows, but tried to access row at index " +
@@ -57,7 +57,7 @@ template <typename T> std::vector<T> &Matrix<T>::operator[](const unsigned int i
   return m_elements[index];
 }
 
-template <typename T> const std::vector<T> &Matrix<T>::operator[](const unsigned int index) const {
+template <typename T> const std::vector<T> &supp_math::Matrix<T>::operator[](const unsigned int index) const {
   if (index >= m_row_size) {
     throw std::out_of_range(
         "The matrix has " + std::to_string(m_row_size) + " rows, but tried to access row at index " +
@@ -69,16 +69,17 @@ template <typename T> const std::vector<T> &Matrix<T>::operator[](const unsigned
 
 template <typename T>
 template <typename U>
-auto Matrix<T>::operator+(const Matrix<U> &matrix) const -> Matrix<std::common_type_t<T, U>> {
+auto supp_math::Matrix<T>::operator+(const supp_math::Matrix<U> &matrix) const
+    -> supp_math::Matrix<std::common_type_t<T, U>> {
   if (m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size()) {
-    throw MatrixMismatchException(
+    throw supp_math::MatrixMismatchException(
         "A " + std::to_string(m_row_size) + "x" + std::to_string(m_col_size) + " matrix is trying to add with a " +
         std::to_string(matrix.get_row_size()) + "x" + std::to_string(matrix.get_col_size()) + " matrix"
     );
   }
 
   using CommonType = std::common_type_t<T, U>;
-  Matrix<CommonType> result(m_row_size, m_col_size);
+  supp_math::Matrix<CommonType> result(m_row_size, m_col_size);
 
   for (unsigned int row = 0; row < m_row_size; row++) {
     for (unsigned int col = 0; col < m_col_size; col++) {
@@ -91,7 +92,8 @@ auto Matrix<T>::operator+(const Matrix<U> &matrix) const -> Matrix<std::common_t
 
 template <typename T>
 template <typename U>
-auto Matrix<T>::operator-(const Matrix<U> &matrix) const -> Matrix<std::common_type_t<T, U>> {
+auto supp_math::Matrix<T>::operator-(const supp_math::Matrix<U> &matrix) const
+    -> supp_math::Matrix<std::common_type_t<T, U>> {
   if (m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size()) {
     throw MatrixMismatchException(
         "A " + std::to_string(m_row_size) + "x" + std::to_string(m_col_size) + " matrix is trying to subtract with a " +
@@ -100,7 +102,7 @@ auto Matrix<T>::operator-(const Matrix<U> &matrix) const -> Matrix<std::common_t
   }
 
   using CommonType = std::common_type_t<T, U>;
-  Matrix<CommonType> result(m_row_size, m_col_size);
+  supp_math::Matrix<CommonType> result(m_row_size, m_col_size);
 
   for (unsigned int row = 0; row < m_row_size; row++) {
     for (unsigned int col = 0; col < m_col_size; col++) {
@@ -113,16 +115,17 @@ auto Matrix<T>::operator-(const Matrix<U> &matrix) const -> Matrix<std::common_t
 
 template <typename T>
 template <typename U>
-auto Matrix<T>::operator*(const Matrix<U> &matrix) const -> Matrix<std::common_type_t<T, U>> {
+auto supp_math::Matrix<T>::operator*(const supp_math::Matrix<U> &matrix) const
+    -> supp_math::Matrix<std::common_type_t<T, U>> {
   if (m_col_size != matrix.get_row_size()) {
-    throw MatrixMismatchException(
+    throw supp_math::MatrixMismatchException(
         "The first Matrix has a column size of " + std::to_string(m_col_size) +
         ", and the second Matrix has a row size of " + std::to_string(matrix.get_row_size())
     );
   }
 
   using CommonType = std::common_type_t<T, U>;
-  Matrix<CommonType> result(m_row_size, matrix.get_col_size());
+  supp_math::Matrix<CommonType> result(m_row_size, matrix.get_col_size());
 
   for (unsigned int row = 0; row < m_row_size; row++) {
     for (unsigned int col = 0; col < matrix.get_col_size(); col++) {
@@ -137,9 +140,9 @@ auto Matrix<T>::operator*(const Matrix<U> &matrix) const -> Matrix<std::common_t
 
 template <typename T>
 template <typename U>
-auto Matrix<T>::operator*(const U &factor) const -> Matrix<std::common_type_t<T, U>> {
+auto supp_math::Matrix<T>::operator*(const U &factor) const -> supp_math::Matrix<std::common_type_t<T, U>> {
   using CommonType = std::common_type_t<T, U>;
-  Matrix<CommonType> result(m_row_size, m_col_size);
+  supp_math::Matrix<CommonType> result(m_row_size, m_col_size);
 
   for (unsigned int row = 0; row < m_row_size; row++) {
     for (unsigned int col = 0; col < m_col_size; col++) {
@@ -152,9 +155,10 @@ auto Matrix<T>::operator*(const U &factor) const -> Matrix<std::common_type_t<T,
 
 template <typename T>
 template <typename U>
-auto Matrix<T>::element_wise_product(const Matrix<U> &matrix) const -> Matrix<std::common_type_t<T, U>> {
+auto supp_math::Matrix<T>::element_wise_product(const supp_math::Matrix<U> &matrix) const
+    -> supp_math::Matrix<std::common_type_t<T, U>> {
   if (m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size()) {
-    throw MatrixMismatchException(
+    throw supp_math::MatrixMismatchException(
         "A " + std::to_string(m_row_size) + "x" + std::to_string(m_col_size) +
         " matrix is trying to element-wise product with a " + std::to_string(matrix.get_row_size()) + "x" +
         std::to_string(matrix.get_col_size()) + " matrix"
@@ -162,7 +166,7 @@ auto Matrix<T>::element_wise_product(const Matrix<U> &matrix) const -> Matrix<st
   }
 
   using CommonType = std::common_type_t<T, U>;
-  Matrix<CommonType> result(m_row_size, m_col_size);
+  supp_math::Matrix<CommonType> result(m_row_size, m_col_size);
 
   for (unsigned int row = 0; row < m_row_size; row++) {
     for (unsigned int col = 0; col < m_col_size; col++) {
@@ -173,8 +177,8 @@ auto Matrix<T>::element_wise_product(const Matrix<U> &matrix) const -> Matrix<st
   return result;
 }
 
-template <typename T> Matrix<T> Matrix<T>::transpose() const {
-  Matrix<T> transposed(m_col_size, m_row_size);
+template <typename T> supp_math::Matrix<T> supp_math::Matrix<T>::transpose() const {
+  supp_math::Matrix<T> transposed(m_col_size, m_row_size);
 
   for (unsigned int row = 0; row < m_col_size; row++) {
     for (unsigned int col = 0; col < m_row_size; col++) {
@@ -185,9 +189,9 @@ template <typename T> Matrix<T> Matrix<T>::transpose() const {
   return transposed;
 }
 
-template <typename T> double Matrix<T>::determinant() const {
+template <typename T> double supp_math::Matrix<T>::determinant() const {
   if (m_row_size != m_col_size) {
-    throw MatrixNonSquareException("The matrix is not a square matrix.");
+    throw supp_math::MatrixNonSquareException("The matrix is not a square matrix.");
   }
 
   if (m_row_size == 1) {
@@ -208,30 +212,30 @@ template <typename T> double Matrix<T>::determinant() const {
 
   try {
     auto [eliminated_matrix, num_swaps] = gaussian_elimination(*this);
-
+    std::cout << eliminated_matrix << std::endl;
     double det = 1;
     for (unsigned int pivot = 0; pivot < m_row_size; pivot++) {
       det *= eliminated_matrix[pivot][pivot];
     }
 
     return std::pow(-1, num_swaps) * det;
-  } catch (MatrixSingularException &) {
+  } catch (supp_math::MatrixSingularException &) {
     return 0;
   }
 }
 
-template <typename T> Matrix<double> Matrix<T>::inverse() const {
+template <typename T> supp_math::Matrix<double> supp_math::Matrix<T>::inverse() const {
   if (m_row_size != m_col_size) {
-    throw MatrixNonSquareException("The matrix is not a square matrix.");
+    throw supp_math::MatrixNonSquareException("The matrix is not a square matrix.");
   }
 
   const double det = determinant();
 
   if (det == 0) {
-    throw MatrixNonInvertibleException("The matrix is singular and hence is not invertible.");
+    throw supp_math::MatrixNonInvertibleException("The matrix is singular and hence is not invertible.");
   }
 
-  Matrix<double> inversed(m_row_size, m_col_size);
+  supp_math::Matrix<double> inversed(m_row_size, m_col_size);
 
   if (m_row_size == 1) {
     inversed[0][0] = 1.0 / static_cast<double>(m_elements[0][0]);
@@ -250,7 +254,7 @@ template <typename T> Matrix<double> Matrix<T>::inverse() const {
 }
 
 template <typename T>
-void Matrix<T>::swap(const unsigned int chosen_index, const unsigned int swapped_index, const char axis) {
+void supp_math::Matrix<T>::swap(const unsigned int chosen_index, const unsigned int swapped_index, const char axis) {
   if (axis == 'r') {
     if (chosen_index >= m_row_size || swapped_index >= m_row_size) {
       throw std::out_of_range(
@@ -275,7 +279,9 @@ void Matrix<T>::swap(const unsigned int chosen_index, const unsigned int swapped
   }
 }
 
-template <typename T> template <typename U> bool Matrix<T>::operator==(const Matrix<U> &matrix) const {
+template <typename T>
+template <typename U>
+bool supp_math::Matrix<T>::operator==(const supp_math::Matrix<U> &matrix) const {
   if (m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size()) {
     return false;
   }
@@ -294,9 +300,10 @@ template <typename T> template <typename U> bool Matrix<T>::operator==(const Mat
 }
 
 template <typename T, typename U>
-auto operator*(const U &factor, const Matrix<T> &matrix) -> Matrix<std::common_type_t<T, U>> {
+auto supp_math::operator*(const U &factor, const supp_math::Matrix<T> &matrix)
+    -> supp_math::Matrix<std::common_type_t<T, U>> {
   using CommonType = std::common_type_t<T, U>;
-  Matrix<CommonType> result(matrix.get_row_size(), matrix.get_col_size());
+  supp_math::Matrix<CommonType> result(matrix.get_row_size(), matrix.get_col_size());
 
   for (unsigned int row = 0; row < matrix.get_row_size(); row++) {
     for (unsigned int col = 0; col < matrix.get_col_size(); col++) {
@@ -308,13 +315,13 @@ auto operator*(const U &factor, const Matrix<T> &matrix) -> Matrix<std::common_t
 }
 
 // Explicit Instantiation
-template class Matrix<short>;
-template class Matrix<int>;
-template class Matrix<long>;
-template class Matrix<long long>;
-template class Matrix<float>;
-template class Matrix<double>;
-template class Matrix<long double>;
+template class supp_math::Matrix<short>;
+template class supp_math::Matrix<int>;
+template class supp_math::Matrix<long>;
+template class supp_math::Matrix<long long>;
+template class supp_math::Matrix<float>;
+template class supp_math::Matrix<double>;
+template class supp_math::Matrix<long double>;
 
 INSTANTIATION_MATRIX_CONSTRUCTOR(short, int)
 INSTANTIATION_MATRIX_CONSTRUCTOR(short, long)
