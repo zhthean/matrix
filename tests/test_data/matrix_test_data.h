@@ -1,5 +1,7 @@
 #include "matrix.h"
 
+using namespace supp_math;
+
 double sample_scalar = 3.2;
 
 unsigned int sample_chosen_index = 0;
@@ -251,6 +253,7 @@ Matrix<double> expected_transposed_double_2x3 = Matrix({
 
 double expected_determinant_double_2x2 = -55.92;
 double expected_determinant_double_3x3 = 325.30872;
+double expected_determinant_double_4x4 = 2229.50664;
 double expected_determinant_double_7x7 = 48387659.4170776556976;
 double expected_determinant_singular_double_3x3 = 0;
 

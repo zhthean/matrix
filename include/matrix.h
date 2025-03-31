@@ -6,18 +6,25 @@
 #include <type_traits>
 #include <vector>
 
-#define INSTANTIATION_MATRIX_CONSTRUCTOR(Type1, Type2) template Matrix<Type1>::Matrix(const Matrix<Type2> &);
+#define INSTANTIATION_MATRIX_CONSTRUCTOR(Type1, Type2)                                                                 \
+  template supp_math::Matrix<Type1>::Matrix(const supp_math::Matrix<Type2> &);
 
 #define INSTANTIATION_MATRIX_FUNCTIONS(Type1, Type2)                                                                   \
-  template auto Matrix<Type1>::operator+(const Matrix<Type2> &) const -> Matrix<std::common_type_t<Type1, Type2>>;     \
-  template auto Matrix<Type1>::operator-(const Matrix<Type2> &) const -> Matrix<std::common_type_t<Type1, Type2>>;     \
-  template auto Matrix<Type1>::operator*(const Matrix<Type2> &) const -> Matrix<std::common_type_t<Type1, Type2>>;     \
-  template auto Matrix<Type1>::operator*(const Type2 &) const -> Matrix<std::common_type_t<Type1, Type2>>;             \
-  template auto Matrix<Type1>::element_wise_product(const Matrix<Type2> &) const                                       \
-      -> Matrix<std::common_type_t<Type1, Type2>>;                                                                     \
-  template auto operator*(const Type1 &, const Matrix<Type2> &)->Matrix<std::common_type_t<Type1, Type2>>;             \
-  template bool Matrix<Type1>::operator==(const Matrix<Type2> &) const;
+  template auto supp_math::Matrix<Type1>::operator+(const supp_math::Matrix<Type2> &) const                            \
+      -> supp_math::Matrix<std::common_type_t<Type1, Type2>>;                                                          \
+  template auto supp_math::Matrix<Type1>::operator-(const supp_math::Matrix<Type2> &) const                            \
+      -> supp_math::Matrix<std::common_type_t<Type1, Type2>>;                                                          \
+  template auto supp_math::Matrix<Type1>::operator*(const supp_math::Matrix<Type2> &) const                            \
+      -> supp_math::Matrix<std::common_type_t<Type1, Type2>>;                                                          \
+  template auto supp_math::Matrix<Type1>::operator*(const Type2 &) const                                               \
+      -> supp_math::Matrix<std::common_type_t<Type1, Type2>>;                                                          \
+  template auto supp_math::Matrix<Type1>::element_wise_product(const supp_math::Matrix<Type2> &) const                 \
+      -> supp_math::Matrix<std::common_type_t<Type1, Type2>>;                                                          \
+  template auto supp_math::operator*(const Type1 &, const supp_math::Matrix<Type2> &)                                  \
+      -> supp_math::Matrix<std::common_type_t<Type1, Type2>>;                                                          \
+  template bool supp_math::Matrix<Type1>::operator==(const supp_math::Matrix<Type2> &) const;
 
+namespace supp_math {
 template <typename T = double> class Matrix {
 private:
   unsigned int m_row_size;
@@ -66,9 +73,9 @@ public:
 };
 
 template <typename T, typename U>
-auto operator*(const U &l_factor, const Matrix<T> &r_factor) -> Matrix<std::common_type_t<T, U>>;
+auto operator*(const U &l_factor, const supp_math::Matrix<T> &r_factor) -> supp_math::Matrix<std::common_type_t<T, U>>;
 
-template <typename T> std::ostream &operator<<(std::ostream &os, const Matrix<T> &matrix) {
+template <typename T> std::ostream &operator<<(std::ostream &os, const supp_math::Matrix<T> &matrix) {
   std::string message = "Matrix([";
 
   for (unsigned int row = 0; row < matrix.get_row_size(); row++) {
@@ -88,5 +95,6 @@ template <typename T> std::ostream &operator<<(std::ostream &os, const Matrix<T>
 
   return os;
 }
+} // namespace supp_math
 
 #endif // MATRIX_H

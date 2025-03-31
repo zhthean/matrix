@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <string>
 
+namespace supp_math {
 class MatrixExceptions : public std::runtime_error {
 public:
   explicit MatrixExceptions(const std::string &msg) : std::runtime_error(msg) {}
@@ -33,5 +34,6 @@ class MatrixNonInvertibleException : public MatrixExceptions {
 public:
   explicit MatrixNonInvertibleException(const std::string &msg) : MatrixExceptions(msg) {}
 };
+} // namespace supp_math
 
 #endif // MATRIX_EXCEPTIONS_H

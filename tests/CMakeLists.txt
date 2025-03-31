@@ -1,6 +1,8 @@
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/test_data)
+
 add_executable(test_matrix "test_matrix_values.cpp" "test_matrix_single_type.cpp" "test_matrix_dual_types.cpp" "../src/matrix.cpp" )
 
 target_link_libraries(
