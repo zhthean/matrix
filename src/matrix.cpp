@@ -1,9 +1,9 @@
 ﻿#include <cstdint>
 #include <stdexcept>
 
+#include "comparison.h"
 #include "exceptions/matrix_exceptions.h"
 #include "matrix.h"
-#include "utils/comparison.h"
 #include "utils/matrix_func.h"
 
 template <typename T> supp_math::Matrix<T>::Matrix() : m_row_size(0), m_col_size(0) {}
