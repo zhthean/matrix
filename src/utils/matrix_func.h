@@ -5,8 +5,11 @@
 
 #include "matrix.h"
 
-std::tuple<supp_math::Matrix<double>, int> gaussian_elimination(supp_math::Matrix<double> matrix);
+namespace supmath
+{
+std::tuple<Matrix<double>, int> gaussian_elimination(Matrix<double> matrix);
 
-supp_math::Matrix<double> gaussian_elimination_inverse(supp_math::Matrix<double> matrix);
+Matrix<double>                  gaussian_elimination_inverse(Matrix<double> matrix);
+}    // namespace supmath
 
-#endif // MATRIX_FUNC_H
+#endif    // MATRIX_FUNC_H
