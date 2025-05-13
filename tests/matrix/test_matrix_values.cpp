@@ -10,8 +10,7 @@ using namespace supmath;
 
 class MatrixAdditionPositiveTest :
     public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>, Matrix<double>>>
-{
-};
+{};
 
 TEST_P(MatrixAdditionPositiveTest, MatrixAddition)
 {
@@ -37,8 +36,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 class MatrixAdditionNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>>>
-{
-};
+{};
 TEST_P(MatrixAdditionNegativeTest, MatrixAddition)
 {
 	auto first_test_martix  = std::get<0>(GetParam());
@@ -57,8 +55,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 class MatrixSubtractionPositiveTest :
     public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>, Matrix<double>>>
-{
-};
+{};
 
 TEST_P(MatrixSubtractionPositiveTest, MatrixSubtraction)
 {
@@ -84,8 +81,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 class MatrixSubtractionNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>>>
-{
-};
+{};
 TEST_P(MatrixSubtractionNegativeTest, MatrixSubtraction)
 {
 	auto first_test_martix  = std::get<0>(GetParam());
@@ -104,8 +100,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 class MatrixMultiplicationPositiveTest :
     public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>, Matrix<double>>>
-{
-};
+{};
 
 TEST_P(MatrixMultiplicationPositiveTest, MatrixMultiplication)
 {
@@ -133,8 +128,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 class MatrixMultiplicationNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>>>
-{
-};
+{};
 TEST_P(MatrixMultiplicationNegativeTest, MatrixMultiplication)
 {
 	auto first_test_martix  = std::get<0>(GetParam());
@@ -153,8 +147,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 class MatrixLeftScalarMultiPositiveTest :
     public ::testing::TestWithParam<std::tuple<double, Matrix<int>, Matrix<double>>>
-{
-};
+{};
 TEST_P(MatrixLeftScalarMultiPositiveTest, MatrixLeftScalarMulti)
 {
 	auto test_scalar     = std::get<0>(GetParam());
@@ -176,8 +169,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 class MatrixRightScalarMultiPositiveTest :
     public ::testing::TestWithParam<std::tuple<double, Matrix<int>, Matrix<double>>>
-{
-};
+{};
 TEST_P(MatrixRightScalarMultiPositiveTest, MatrixRightScalarMulti)
 {
 	auto test_scalar     = std::get<0>(GetParam());
@@ -199,8 +191,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 class MatrixElementWisePositiveTest :
     public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>, Matrix<double>>>
-{
-};
+{};
 
 TEST_P(MatrixElementWisePositiveTest, MatrixElementWise)
 {
@@ -226,8 +217,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 class MatrixElementWiseNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>>>
-{
-};
+{};
 TEST_P(MatrixElementWiseNegativeTest, MatrixElementWise)
 {
 	auto first_test_martix  = std::get<0>(GetParam());
@@ -245,8 +235,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 class MatrixTransposePositiveTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<double>>>
-{
-};
+{};
 
 TEST_P(MatrixTransposePositiveTest, MatrixTranspose)
 {
@@ -268,8 +257,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 class MatrixDeterminantPositiveTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, double>>
-{
-};
+{};
 
 TEST_P(MatrixDeterminantPositiveTest, MatrixDeterminant)
 {
@@ -293,8 +281,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 class MatrixDeterminantNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>>>
-{
-};
+{};
 
 TEST_P(MatrixDeterminantNegativeTest, MatrixDeterminant)
 {
@@ -309,8 +296,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 class MatrixInversePositiveTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<double>>>
-{
-};
+{};
 
 TEST_P(MatrixInversePositiveTest, MatrixInverse)
 {
@@ -333,8 +319,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 class MatrixInverseNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>>>
-{
-};
+{};
 
 TEST_P(MatrixInverseNegativeTest, MatrixInverse)
 {
@@ -355,8 +340,7 @@ TEST(MatrixInverseSingularTest, MatrixInverse)
 
 class MatrixSwapPositiveTest :
     public ::testing::TestWithParam<std::tuple<Matrix<double>, unsigned int, unsigned int, char, Matrix<double>>>
-{
-};
+{};
 
 TEST_P(MatrixSwapPositiveTest, MatrixSwap)
 {
@@ -385,8 +369,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 class MatrixSwapNegativeTest :
     public ::testing::TestWithParam<std::tuple<Matrix<double>, unsigned int, unsigned int, char>>
-{
-};
+{};
 
 TEST_P(MatrixSwapNegativeTest, MatrixSwap)
 {

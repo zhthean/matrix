@@ -10,14 +10,12 @@ using namespace supmath;
 
 template<Numerical T>
 supmath::Matrix<T>::Matrix() : m_row_size(0), m_col_size(0)
-{
-}
+{}
 
 template<Numerical T>
 supmath::Matrix<T>::Matrix(const unsigned int row_size, const unsigned int col_size) :
     m_row_size(row_size), m_col_size(col_size), m_elements(row_size, std::vector<T>(col_size, 0))
-{
-}
+{}
 
 template<Numerical T>
 supmath::Matrix<T>::Matrix(const std::vector<std::vector<T>> &elements)
