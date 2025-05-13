@@ -20,21 +20,21 @@ supmath::Matrix<T>::Matrix(const unsigned int row_size, const unsigned int col_s
 template<Numerical T>
 supmath::Matrix<T>::Matrix(const std::vector<std::vector<T>> &elements)
 {
-	unsigned int row_size = static_cast<unsigned int>(elements.size());
-	if ( elements.size() <= 0 ) {
-		throw InvalidMatrixDimensionException("The row of the Matrix should not be empty.");
-	}
+  unsigned int row_size = static_cast<unsigned int>(elements.size());
+  if ( elements.size() <= 0 ) {
+    throw InvalidMatrixDimensionException("The row of the Matrix should not be empty.");
+  }
 
-	unsigned int col_size = static_cast<unsigned int>(elements[0].size());
-	for ( const auto &row : elements ) {
-		if ( row.size() != col_size ) {
-			throw InvalidMatrixDimensionException("All rows must have the same number of columns.");
-		}
-	}
+  unsigned int col_size = static_cast<unsigned int>(elements[0].size());
+  for ( const auto &row : elements ) {
+    if ( row.size() != col_size ) {
+      throw InvalidMatrixDimensionException("All rows must have the same number of columns.");
+    }
+  }
 
-	m_col_size = col_size;
-	m_row_size = row_size;
-	m_elements = elements;
+  m_col_size = col_size;
+  m_row_size = row_size;
+  m_elements = elements;
 }
 
 template<Numerical T>
@@ -44,329 +44,329 @@ supmath::Matrix<T>::Matrix(const Matrix<U> &other) :
     m_elements(other.get_row_size(), std::vector<T>(other.get_col_size()))
 {
 
-	for ( unsigned int row = 0; row < other.get_row_size(); row++ ) {
-		for ( unsigned int col = 0; col < other.get_col_size(); col++ ) {
-			m_elements[row][col] = static_cast<T>(other[row][col]);
-		}
-	}
+  for ( unsigned int row = 0; row < other.get_row_size(); row++ ) {
+    for ( unsigned int col = 0; col < other.get_col_size(); col++ ) {
+      m_elements[row][col] = static_cast<T>(other[row][col]);
+    }
+  }
 }
 
 template<Numerical T>
 unsigned int supmath::Matrix<T>::get_row_size() const
 {
-	return m_row_size;
+  return m_row_size;
 }
 
 template<Numerical T>
 unsigned int supmath::Matrix<T>::get_col_size() const
 {
-	return m_col_size;
+  return m_col_size;
 }
 
 template<Numerical T>
 std::vector<T> &supmath::Matrix<T>::operator[](const unsigned int index)
 {
-	if ( index >= m_row_size ) {
-		throw std::out_of_range(
-		    "The matrix has " + std::to_string(m_row_size) + " rows, but tried to access row at index "
-		    + std::to_string(index)
-		);
-	}
-	return m_elements[index];
+  if ( index >= m_row_size ) {
+    throw std::out_of_range(
+        "The matrix has " + std::to_string(m_row_size) + " rows, but tried to access row at index "
+        + std::to_string(index)
+    );
+  }
+  return m_elements[index];
 }
 
 template<Numerical T>
 const std::vector<T> &supmath::Matrix<T>::operator[](const unsigned int index) const
 {
-	if ( index >= m_row_size ) {
-		throw std::out_of_range(
-		    "The matrix has " + std::to_string(m_row_size) + " rows, but tried to access row at index "
-		    + std::to_string(index)
-		);
-	}
-	return m_elements[index];
+  if ( index >= m_row_size ) {
+    throw std::out_of_range(
+        "The matrix has " + std::to_string(m_row_size) + " rows, but tried to access row at index "
+        + std::to_string(index)
+    );
+  }
+  return m_elements[index];
 }
 
 template<Numerical T>
 template<Numerical U>
 auto supmath::Matrix<T>::operator+(const Matrix<U> &matrix) const -> Matrix<std::common_type_t<T, U>>
 {
-	if ( m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size() ) {
-		throw MatrixMismatchException(
-		    "A " + std::to_string(m_row_size) + "x" + std::to_string(m_col_size) + " matrix is trying to add with a "
-		    + std::to_string(matrix.get_row_size()) + "x" + std::to_string(matrix.get_col_size()) + " matrix"
-		);
-	}
+  if ( m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size() ) {
+    throw MatrixMismatchException(
+        "A " + std::to_string(m_row_size) + "x" + std::to_string(m_col_size) + " matrix is trying to add with a "
+        + std::to_string(matrix.get_row_size()) + "x" + std::to_string(matrix.get_col_size()) + " matrix"
+    );
+  }
 
-	using CommonType = std::common_type_t<T, U>;
-	Matrix<CommonType> result(m_row_size, m_col_size);
+  using CommonType = std::common_type_t<T, U>;
+  Matrix<CommonType> result(m_row_size, m_col_size);
 
-	for ( unsigned int row = 0; row < m_row_size; row++ ) {
-		for ( unsigned int col = 0; col < m_col_size; col++ ) {
-			result[row][col] = m_elements[row][col] + matrix[row][col];
-		}
-	}
+  for ( unsigned int row = 0; row < m_row_size; row++ ) {
+    for ( unsigned int col = 0; col < m_col_size; col++ ) {
+      result[row][col] = m_elements[row][col] + matrix[row][col];
+    }
+  }
 
-	return result;
+  return result;
 }
 
 template<Numerical T>
 template<Numerical U>
 auto supmath::Matrix<T>::operator-(const Matrix<U> &matrix) const -> Matrix<std::common_type_t<T, U>>
 {
-	if ( m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size() ) {
-		throw MatrixMismatchException(
-		    "A " + std::to_string(m_row_size) + "x" + std::to_string(m_col_size) + " matrix is trying to subtract with a "
-		    + std::to_string(matrix.get_row_size()) + "x" + std::to_string(matrix.get_col_size()) + " matrix"
-		);
-	}
+  if ( m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size() ) {
+    throw MatrixMismatchException(
+        "A " + std::to_string(m_row_size) + "x" + std::to_string(m_col_size) + " matrix is trying to subtract with a "
+        + std::to_string(matrix.get_row_size()) + "x" + std::to_string(matrix.get_col_size()) + " matrix"
+    );
+  }
 
-	using CommonType = std::common_type_t<T, U>;
-	Matrix<CommonType> result(m_row_size, m_col_size);
+  using CommonType = std::common_type_t<T, U>;
+  Matrix<CommonType> result(m_row_size, m_col_size);
 
-	for ( unsigned int row = 0; row < m_row_size; row++ ) {
-		for ( unsigned int col = 0; col < m_col_size; col++ ) {
-			result[row][col] = m_elements[row][col] - matrix[row][col];
-		}
-	}
+  for ( unsigned int row = 0; row < m_row_size; row++ ) {
+    for ( unsigned int col = 0; col < m_col_size; col++ ) {
+      result[row][col] = m_elements[row][col] - matrix[row][col];
+    }
+  }
 
-	return result;
+  return result;
 }
 
 template<Numerical T>
 template<Numerical U>
 auto supmath::Matrix<T>::operator*(const Matrix<U> &matrix) const -> Matrix<std::common_type_t<T, U>>
 {
-	if ( m_col_size != matrix.get_row_size() ) {
-		throw MatrixMismatchException(
-		    "The first Matrix has a column size of " + std::to_string(m_col_size)
-		    + ", and the second Matrix has a row size of " + std::to_string(matrix.get_row_size())
-		);
-	}
+  if ( m_col_size != matrix.get_row_size() ) {
+    throw MatrixMismatchException(
+        "The first Matrix has a column size of " + std::to_string(m_col_size)
+        + ", and the second Matrix has a row size of " + std::to_string(matrix.get_row_size())
+    );
+  }
 
-	using CommonType = std::common_type_t<T, U>;
-	Matrix<CommonType> result(m_row_size, matrix.get_col_size());
+  using CommonType = std::common_type_t<T, U>;
+  Matrix<CommonType> result(m_row_size, matrix.get_col_size());
 
-	for ( unsigned int row = 0; row < m_row_size; row++ ) {
-		for ( unsigned int col = 0; col < matrix.get_col_size(); col++ ) {
-			for ( unsigned int factor_row = 0; factor_row < matrix.get_row_size(); factor_row++ ) {
-				result[row][col] += m_elements[row][factor_row] * matrix[factor_row][col];
-			}
-		}
-	}
+  for ( unsigned int row = 0; row < m_row_size; row++ ) {
+    for ( unsigned int col = 0; col < matrix.get_col_size(); col++ ) {
+      for ( unsigned int factor_row = 0; factor_row < matrix.get_row_size(); factor_row++ ) {
+        result[row][col] += m_elements[row][factor_row] * matrix[factor_row][col];
+      }
+    }
+  }
 
-	return result;
+  return result;
 }
 
 template<Numerical T>
 template<Numerical U>
 auto supmath::Matrix<T>::operator*(const U &factor) const -> Matrix<std::common_type_t<T, U>>
 {
-	using CommonType = std::common_type_t<T, U>;
-	Matrix<CommonType> result(m_row_size, m_col_size);
+  using CommonType = std::common_type_t<T, U>;
+  Matrix<CommonType> result(m_row_size, m_col_size);
 
-	for ( unsigned int row = 0; row < m_row_size; row++ ) {
-		for ( unsigned int col = 0; col < m_col_size; col++ ) {
-			result[row][col] = factor * m_elements[row][col];
-		}
-	}
+  for ( unsigned int row = 0; row < m_row_size; row++ ) {
+    for ( unsigned int col = 0; col < m_col_size; col++ ) {
+      result[row][col] = factor * m_elements[row][col];
+    }
+  }
 
-	return result;
+  return result;
 }
 
 template<Numerical T>
 template<Numerical U>
 auto supmath::Matrix<T>::element_wise_product(const Matrix<U> &matrix) const -> Matrix<std::common_type_t<T, U>>
 {
-	if ( m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size() ) {
-		throw MatrixMismatchException(
-		    "A " + std::to_string(m_row_size) + "x" + std::to_string(m_col_size)
-		    + " matrix is trying to element-wise product with a " + std::to_string(matrix.get_row_size()) + "x"
-		    + std::to_string(matrix.get_col_size()) + " matrix"
-		);
-	}
+  if ( m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size() ) {
+    throw MatrixMismatchException(
+        "A " + std::to_string(m_row_size) + "x" + std::to_string(m_col_size)
+        + " matrix is trying to element-wise product with a " + std::to_string(matrix.get_row_size()) + "x"
+        + std::to_string(matrix.get_col_size()) + " matrix"
+    );
+  }
 
-	using CommonType = std::common_type_t<T, U>;
-	Matrix<CommonType> result(m_row_size, m_col_size);
+  using CommonType = std::common_type_t<T, U>;
+  Matrix<CommonType> result(m_row_size, m_col_size);
 
-	for ( unsigned int row = 0; row < m_row_size; row++ ) {
-		for ( unsigned int col = 0; col < m_col_size; col++ ) {
-			result[row][col] = m_elements[row][col] * matrix[row][col];
-		}
-	}
+  for ( unsigned int row = 0; row < m_row_size; row++ ) {
+    for ( unsigned int col = 0; col < m_col_size; col++ ) {
+      result[row][col] = m_elements[row][col] * matrix[row][col];
+    }
+  }
 
-	return result;
+  return result;
 }
 
 template<Numerical T>
 Matrix<T> supmath::Matrix<T>::transpose() const
 {
-	Matrix<T> transposed(m_col_size, m_row_size);
+  Matrix<T> transposed(m_col_size, m_row_size);
 
-	for ( unsigned int row = 0; row < m_col_size; row++ ) {
-		for ( unsigned int col = 0; col < m_row_size; col++ ) {
-			transposed[row][col] = m_elements[col][row];
-		}
-	}
+  for ( unsigned int row = 0; row < m_col_size; row++ ) {
+    for ( unsigned int col = 0; col < m_row_size; col++ ) {
+      transposed[row][col] = m_elements[col][row];
+    }
+  }
 
-	return transposed;
+  return transposed;
 }
 
 template<Numerical T>
 double supmath::Matrix<T>::determinant() const
 {
-	if ( m_row_size != m_col_size ) {
-		throw MatrixNonSquareException("The matrix is not a square matrix.");
-	}
+  if ( m_row_size != m_col_size ) {
+    throw MatrixNonSquareException("The matrix is not a square matrix.");
+  }
 
-	if ( m_row_size == 1 ) {
-		return static_cast<double>(m_elements[0][0]);
-	}
+  if ( m_row_size == 1 ) {
+    return static_cast<double>(m_elements[0][0]);
+  }
 
-	if ( m_row_size == 2 ) {
-		return static_cast<double>(m_elements[0][0] * m_elements[1][1] - m_elements[0][1] * m_elements[1][0]);
-	}
+  if ( m_row_size == 2 ) {
+    return static_cast<double>(m_elements[0][0] * m_elements[1][1] - m_elements[0][1] * m_elements[1][0]);
+  }
 
-	if ( m_row_size == 3 ) {
-		return static_cast<double>(
-		    m_elements[0][0] * (m_elements[1][1] * m_elements[2][2] - m_elements[1][2] * m_elements[2][1])
-		    - m_elements[0][1] * (m_elements[1][0] * m_elements[2][2] - m_elements[1][2] * m_elements[2][0])
-		    + m_elements[0][2] * (m_elements[1][0] * m_elements[2][1] - m_elements[1][1] * m_elements[2][0])
-		);
-	}
+  if ( m_row_size == 3 ) {
+    return static_cast<double>(
+        m_elements[0][0] * (m_elements[1][1] * m_elements[2][2] - m_elements[1][2] * m_elements[2][1])
+        - m_elements[0][1] * (m_elements[1][0] * m_elements[2][2] - m_elements[1][2] * m_elements[2][0])
+        + m_elements[0][2] * (m_elements[1][0] * m_elements[2][1] - m_elements[1][1] * m_elements[2][0])
+    );
+  }
 
-	try {
-		auto [eliminated_matrix, num_swaps] = gaussian_elimination(*this);
-		std::cout << eliminated_matrix << std::endl;
-		double det = 1;
-		for ( unsigned int pivot = 0; pivot < m_row_size; pivot++ ) {
-			det *= eliminated_matrix[pivot][pivot];
-		}
+  try {
+    auto [eliminated_matrix, num_swaps] = gaussian_elimination(*this);
+    std::cout << eliminated_matrix << std::endl;
+    double det = 1;
+    for ( unsigned int pivot = 0; pivot < m_row_size; pivot++ ) {
+      det *= eliminated_matrix[pivot][pivot];
+    }
 
-		return std::pow(-1, num_swaps) * det;
-	}
-	catch ( MatrixSingularException & ) {
-		return 0;
-	}
+    return std::pow(-1, num_swaps) * det;
+  }
+  catch ( MatrixSingularException & ) {
+    return 0;
+  }
 }
 
 template<Numerical T>
 Matrix<double> supmath::Matrix<T>::inverse() const
 {
-	if ( m_row_size != m_col_size ) {
-		throw MatrixNonSquareException("The matrix is not a square matrix.");
-	}
+  if ( m_row_size != m_col_size ) {
+    throw MatrixNonSquareException("The matrix is not a square matrix.");
+  }
 
-	const double det = determinant();
+  const double det = determinant();
 
-	if ( det == 0 ) {
-		throw MatrixNonInvertibleException("The matrix is singular and hence is not invertible.");
-	}
+  if ( det == 0 ) {
+    throw MatrixNonInvertibleException("The matrix is singular and hence is not invertible.");
+  }
 
-	Matrix<double> inversed(m_row_size, m_col_size);
+  Matrix<double> inversed(m_row_size, m_col_size);
 
-	if ( m_row_size == 1 ) {
-		inversed[0][0] = 1.0 / static_cast<double>(m_elements[0][0]);
-		return inversed;
-	}
+  if ( m_row_size == 1 ) {
+    inversed[0][0] = 1.0 / static_cast<double>(m_elements[0][0]);
+    return inversed;
+  }
 
-	if ( m_row_size == 2 ) {
-		inversed[0][0] = m_elements[1][1] / det;
-		inversed[0][1] = -m_elements[0][1] / det;
-		inversed[1][0] = -m_elements[1][0] / det;
-		inversed[1][1] = m_elements[0][0] / det;
-		return inversed;
-	}
+  if ( m_row_size == 2 ) {
+    inversed[0][0] = m_elements[1][1] / det;
+    inversed[0][1] = -m_elements[0][1] / det;
+    inversed[1][0] = -m_elements[1][0] / det;
+    inversed[1][1] = m_elements[0][0] / det;
+    return inversed;
+  }
 
-	return gaussian_elimination_inverse(*this);
+  return gaussian_elimination_inverse(*this);
 }
 
 template<Numerical T>
 void supmath::Matrix<T>::swap(const unsigned int chosen_index, const unsigned int swapped_index, const char axis)
 {
-	if ( axis == 'r' ) {
-		if ( chosen_index >= m_row_size || swapped_index >= m_row_size ) {
-			throw std::out_of_range(
-			    "The matrix has " + std::to_string(m_row_size) + " rows, but tried to swap row at index "
-			    + std::to_string(chosen_index) + " and " + std::to_string(swapped_index)
-			);
-		}
-		m_elements[chosen_index].swap(m_elements[swapped_index]);
-	}
-	else if ( axis == 'c' ) {
-		if ( chosen_index >= m_col_size || swapped_index >= m_col_size ) {
-			throw std::out_of_range(
-			    "The matrix has " + std::to_string(m_col_size) + " columns, but tried to swap column at index "
-			    + std::to_string(chosen_index) + " and " + std::to_string(swapped_index)
-			);
-		}
+  if ( axis == 'r' ) {
+    if ( chosen_index >= m_row_size || swapped_index >= m_row_size ) {
+      throw std::out_of_range(
+          "The matrix has " + std::to_string(m_row_size) + " rows, but tried to swap row at index "
+          + std::to_string(chosen_index) + " and " + std::to_string(swapped_index)
+      );
+    }
+    m_elements[chosen_index].swap(m_elements[swapped_index]);
+  }
+  else if ( axis == 'c' ) {
+    if ( chosen_index >= m_col_size || swapped_index >= m_col_size ) {
+      throw std::out_of_range(
+          "The matrix has " + std::to_string(m_col_size) + " columns, but tried to swap column at index "
+          + std::to_string(chosen_index) + " and " + std::to_string(swapped_index)
+      );
+    }
 
-		for ( unsigned int row = 0; row < m_row_size; row++ ) {
-			std::swap(m_elements[row][chosen_index], m_elements[row][swapped_index]);
-		}
-	}
-	else {
-		throw std::invalid_argument("The axis should be either 'r'(row) or 'c'(column).");
-	}
+    for ( unsigned int row = 0; row < m_row_size; row++ ) {
+      std::swap(m_elements[row][chosen_index], m_elements[row][swapped_index]);
+    }
+  }
+  else {
+    throw std::invalid_argument("The axis should be either 'r'(row) or 'c'(column).");
+  }
 }
 
 template<Numerical T>
 template<Numerical U>
 bool supmath::Matrix<T>::operator==(const Matrix<U> &matrix) const
 {
-	if ( m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size() ) {
-		return false;
-	}
+  if ( m_row_size != matrix.get_row_size() || m_col_size != matrix.get_col_size() ) {
+    return false;
+  }
 
-	double epsilon = std::is_same<T, float>::value ? 1e-5 : 1e-9;
+  double epsilon = std::is_same<T, float>::value ? 1e-5 : 1e-9;
 
-	for ( unsigned int row = 0; row < m_row_size; row++ ) {
-		for ( unsigned int col = 0; col < m_col_size; col++ ) {
-			if ( !numeric_almost_equal(matrix[row][col], m_elements[row][col], epsilon) ) {
-				return false;
-			}
-		}
-	}
+  for ( unsigned int row = 0; row < m_row_size; row++ ) {
+    for ( unsigned int col = 0; col < m_col_size; col++ ) {
+      if ( !numeric_almost_equal(matrix[row][col], m_elements[row][col], epsilon) ) {
+        return false;
+      }
+    }
+  }
 
-	return true;
+  return true;
 }
 
 template<Numerical T, Numerical U>
 auto supmath::operator*(const U &factor, const Matrix<T> &matrix) -> Matrix<std::common_type_t<T, U>>
 {
-	using CommonType = std::common_type_t<T, U>;
-	Matrix<CommonType> result(matrix.get_row_size(), matrix.get_col_size());
+  using CommonType = std::common_type_t<T, U>;
+  Matrix<CommonType> result(matrix.get_row_size(), matrix.get_col_size());
 
-	for ( unsigned int row = 0; row < matrix.get_row_size(); row++ ) {
-		for ( unsigned int col = 0; col < matrix.get_col_size(); col++ ) {
-			result[row][col] = factor * matrix[row][col];
-		}
-	}
+  for ( unsigned int row = 0; row < matrix.get_row_size(); row++ ) {
+    for ( unsigned int col = 0; col < matrix.get_col_size(); col++ ) {
+      result[row][col] = factor * matrix[row][col];
+    }
+  }
 
-	return result;
+  return result;
 }
 
 template<Numerical T>
 std::ostream &supmath::operator<<(std::ostream &os, const Matrix<T> &matrix)
 {
-	std::string message = "Matrix([";
+  std::string message = "Matrix([";
 
-	for ( unsigned int row = 0; row < matrix.get_row_size(); row++ ) {
-		message += "[";
-		for ( unsigned int col = 0; col < matrix.get_col_size(); col++ ) {
-			message += std::to_string(matrix[row][col]);
-			if ( col != matrix.get_col_size() - 1 ) {
-				message += ", ";
-			}
-		}
+  for ( unsigned int row = 0; row < matrix.get_row_size(); row++ ) {
+    message += "[";
+    for ( unsigned int col = 0; col < matrix.get_col_size(); col++ ) {
+      message += std::to_string(matrix[row][col]);
+      if ( col != matrix.get_col_size() - 1 ) {
+        message += ", ";
+      }
+    }
 
-		message += row == matrix.get_row_size() - 1 ? "]" : "], ";
-	}
+    message += row == matrix.get_row_size() - 1 ? "]" : "], ";
+  }
 
-	message += "])";
-	os << message;
+  message += "])";
+  os << message;
 
-	return os;
+  return os;
 }
 
 // Explicit Instantiation

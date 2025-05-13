@@ -2,7 +2,7 @@ Language: Cpp
 #BasedOnStyle: LLVM
 IndentWidth: 2
 TabWidth: 2
-UseTab: ForIndentation
+#UseTab: ForIndentation
 ColumnLimit: 120
 MaxEmptyLinesToKeep: 1
 
@@ -49,7 +49,7 @@ AllowBreakBeforeNoexceptSpecifier: Never
 AllowShortBlocksOnASingleLine: Never
 AllowShortCompoundRequirementOnASingleLine: true
 AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: Empty
 AllowShortLoopsOnASingleLine: true
