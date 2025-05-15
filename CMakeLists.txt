@@ -9,7 +9,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 project("supplement_math")
 
-add_library(MyMatrix "src/matrix.cpp" "src/utils/matrix_func.cpp")
+#set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
+
+add_library(MyMatrix "src/matrix.cpp" "src/vector.cpp" "src/utils/matrix_func.cpp")
 
 target_include_directories(MyMatrix
 	PUBLIC ${PROJECT_SOURCE_DIR}/include

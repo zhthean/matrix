@@ -1,5 +1,4 @@
-﻿#include <cstdint>
-#include <stdexcept>
+﻿#include <stdexcept>
 
 #include "comparison.h"
 #include "exceptions/matrix_exceptions.h"
@@ -478,11 +477,3 @@ INSTANTIATION_MATRIX_FUNCTIONS(long double, long long)
 INSTANTIATION_MATRIX_FUNCTIONS(long double, float)
 INSTANTIATION_MATRIX_FUNCTIONS(long double, double)
 INSTANTIATION_MATRIX_FUNCTIONS(long double, long double)
-
-// template std::ostream &operator<<(std::ostream&, const Matrix<short> &);
-// template std::ostream &operator<<(std::ostream&, const Matrix<int> &);
-// template std::ostream &operator<<(std::ostream &, const Matrix<long> &);
-// template std::ostream &operator<<(std::ostream &, const Matrix<long long> &);
-// template std::ostream &operator<<(std::ostream &, const Matrix<float> &);
-// template std::ostream &operator<<(std::ostream &, const Matrix<double> &);
-// template std::ostream &operator<<(std::ostream &, const Matrix<long double> &);
