@@ -1,5 +1,5 @@
-﻿#include <stdexcept>
-#include <string>
+﻿#include <sstream>
+#include <stdexcept>
 
 #include "exceptions/matrix_exceptions.h"
 #include "matrix.h"
@@ -282,7 +282,7 @@ void supmath::Matrix<T>::swap(const size_t chosen_index, const size_t swapped_in
     }
     _elements[chosen_index].swap(_elements[swapped_index]);
   }
-  else if ( order == MatrixOrder::Column ) {
+  else {
     if ( chosen_index >= _col_size || swapped_index >= _col_size ) {
       throw std::out_of_range(
           "The matrix has " + std::to_string(_col_size) + " columns, but tried to swap column at index "
@@ -293,9 +293,6 @@ void supmath::Matrix<T>::swap(const size_t chosen_index, const size_t swapped_in
     for ( size_t row = 0; row < _row_size; row++ ) {
       std::swap(_elements[row][chosen_index], _elements[row][swapped_index]);
     }
-  }
-  else {
-    throw std::invalid_argument("Unsupport order");
   }
 }
 
@@ -320,6 +317,28 @@ bool supmath::Matrix<T>::operator==(const Matrix<U> &matrix) const
   return true;
 }
 
+template<Numerical T>
+supmath::Matrix<T>::operator std::string() const
+{
+  std::ostringstream oss;
+
+  oss << "Matrix([";
+  for ( size_t row = 0; row < getRowSize(); ++row ) {
+    oss << "[";
+    for ( size_t col = 0; col < getColSize(); ++col ) {
+      oss << _elements[row][col];
+      if ( col != getColSize() - 1 ) {
+        oss << ", ";
+      }
+    }
+    oss << (row == getRowSize() - 1 ? "]" : "], ");
+  }
+  oss << "])";
+
+  return oss.str();
+  ;
+}
+
 template<Numerical T, Numerical U>
 auto supmath::operator*(const T factor, const Matrix<U> &matrix) -> Matrix<std::common_type_t<T, U>>
 {
@@ -338,40 +357,25 @@ auto supmath::operator*(const T factor, const Matrix<U> &matrix) -> Matrix<std::
 template<Numerical T>
 std::ostream &supmath::operator<<(std::ostream &os, const Matrix<T> &matrix)
 {
-  std::string message = "Matrix([";
-
-  for ( size_t row = 0; row < matrix.getRowSize(); row++ ) {
-    message += "[";
-    for ( size_t col = 0; col < matrix.getColSize(); col++ ) {
-      message += std::to_string(matrix[row][col]);
-      if ( col != matrix.getColSize() - 1 ) {
-        message += ", ";
-      }
-    }
-
-    message += row == matrix.getRowSize() - 1 ? "]" : "], ";
-  }
-
-  message += "])";
-  os << message;
+  os << static_cast<std::string>(matrix);
 
   return os;
 }
 
 // Explicit Instantiation
-template class Matrix<short>;
-template class Matrix<int>;
-template class Matrix<long>;
-template class Matrix<long long>;
-template class Matrix<float>;
-template class Matrix<double>;
+template class supmath::Matrix<short>;
+template class supmath::Matrix<int>;
+template class supmath::Matrix<long>;
+template class supmath::Matrix<long long>;
+template class supmath::Matrix<float>;
+template class supmath::Matrix<double>;
 
-template std::ostream &supmath::operator<<(std::ostream &os, const Matrix<short> &matrix);
-template std::ostream &supmath::operator<<(std::ostream &os, const Matrix<int> &matrix);
-template std::ostream &supmath::operator<<(std::ostream &os, const Matrix<long> &matrix);
-template std::ostream &supmath::operator<<(std::ostream &os, const Matrix<long long> &matrix);
-template std::ostream &supmath::operator<<(std::ostream &os, const Matrix<float> &matrix);
-template std::ostream &supmath::operator<<(std::ostream &os, const Matrix<double> &matrix);
+template std::ostream &supmath::operator<<(std::ostream &, const Matrix<short> &);
+template std::ostream &supmath::operator<<(std::ostream &, const Matrix<int> &);
+template std::ostream &supmath::operator<<(std::ostream &, const Matrix<long> &);
+template std::ostream &supmath::operator<<(std::ostream &, const Matrix<long long> &);
+template std::ostream &supmath::operator<<(std::ostream &, const Matrix<float> &);
+template std::ostream &supmath::operator<<(std::ostream &, const Matrix<double> &);
 
 INSTANTIATION_MATRIX_CONSTRUCTOR(short, int)
 INSTANTIATION_MATRIX_CONSTRUCTOR(short, long)

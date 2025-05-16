@@ -2,6 +2,7 @@
 #define MATRIX_H
 
 #include <iostream>
+#include <string>
 #include <type_traits>
 #include <vector>
 
@@ -85,6 +86,8 @@ public:
 
   template<Numerical U>
   bool operator==(const Matrix<U> &matrix) const;
+
+  operator std::string() const;
 };
 
 template<Numerical T, Numerical U>

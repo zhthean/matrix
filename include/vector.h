@@ -3,6 +3,7 @@
 
 #include <initializer_list>
 #include <iostream>
+#include <string>
 #include <type_traits>
 #include <vector>
 
@@ -96,6 +97,8 @@ public:
 
   template<Numerical U>
   bool operator==(const Vector<U> &other) const;
+
+  operator std::string() const;
 };
 
 template<Numerical T, Numerical U>

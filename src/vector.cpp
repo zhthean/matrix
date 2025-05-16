@@ -1,6 +1,6 @@
 #include <cmath>
+#include <sstream>
 #include <stdexcept>
-#include <string>
 
 #include "exceptions/vector_exceptions.h"
 #include "vector.h"
@@ -238,6 +238,23 @@ bool supmath::Vector<T>::operator==(const Vector<U> &other) const
   return true;
 }
 
+template<Numerical T>
+supmath::Vector<T>::operator std::string() const
+{
+  std::ostringstream oss;
+
+  oss << "Vector([";
+  for ( size_t index = 0; index < getSize(); ++index ) {
+    oss << _elements[index];
+    if ( index != getSize() - 1 ) {
+      oss << ", ";
+    }
+  }
+  oss << "])";
+
+  return oss.str();
+}
+
 template<Numerical T, Numerical U>
 auto supmath::operator*(const T factor, const Vector<U> &vector) -> Vector<std::common_type_t<T, U>>
 {
@@ -247,35 +264,25 @@ auto supmath::operator*(const T factor, const Vector<U> &vector) -> Vector<std::
 template<Numerical T>
 std::ostream &supmath::operator<<(std::ostream &os, const Vector<T> &vector)
 {
-  std::string message = "Vector([";
-
-  for ( size_t index = 0; index < vector.getSize(); index++ ) {
-    message += std::to_string(vector[index]);
-    if ( index != vector.getSize() - 1 ) {
-      message += ", ";
-    }
-  }
-
-  message += "])";
-  os << message;
+  os << static_cast<std::string>(vector);
 
   return os;
 }
 
 // Explicit Instantiation
-template class Vector<short>;
-template class Vector<int>;
-template class Vector<long>;
-template class Vector<long long>;
-template class Vector<float>;
-template class Vector<double>;
+template class supmath::Vector<short>;
+template class supmath::Vector<int>;
+template class supmath::Vector<long>;
+template class supmath::Vector<long long>;
+template class supmath::Vector<float>;
+template class supmath::Vector<double>;
 
-template std::ostream &supmath::operator<<(std::ostream &os, const Vector<short> &matrix);
-template std::ostream &supmath::operator<<(std::ostream &os, const Vector<int> &matrix);
-template std::ostream &supmath::operator<<(std::ostream &os, const Vector<long> &matrix);
-template std::ostream &supmath::operator<<(std::ostream &os, const Vector<long long> &matrix);
-template std::ostream &supmath::operator<<(std::ostream &os, const Vector<float> &matrix);
-template std::ostream &supmath::operator<<(std::ostream &os, const Vector<double> &matrix);
+template std::ostream &supmath::operator<<(std::ostream &, const Vector<short> &);
+template std::ostream &supmath::operator<<(std::ostream &, const Vector<int> &);
+template std::ostream &supmath::operator<<(std::ostream &, const Vector<long> &);
+template std::ostream &supmath::operator<<(std::ostream &, const Vector<long long> &);
+template std::ostream &supmath::operator<<(std::ostream &, const Vector<float> &);
+template std::ostream &supmath::operator<<(std::ostream &, const Vector<double> &);
 
 INSTANTIATION_VECTOR_CONSTRUCTOR(short, int)
 INSTANTIATION_VECTOR_CONSTRUCTOR(short, long)
