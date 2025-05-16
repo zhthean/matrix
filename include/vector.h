@@ -3,6 +3,7 @@
 
 #include <initializer_list>
 #include <iostream>
+#include <type_traits>
 #include <vector>
 
 #include "types.h"
@@ -19,9 +20,9 @@
   template auto supmath::Vector<Type1>::operator*(const Type2) const -> Vector<std::common_type_t<Type1, Type2>>;      \
   template auto supmath::Vector<Type1>::crossProduct(const Vector<Type2> &) const                                      \
       -> Vector<std::common_type_t<Type1, Type2>>;                                                                     \
-  template double         supmath::Vector<Type1>::dotProduct(const Vector<Type2> &other) const;                        \
-  template double         supmath::Vector<Type1>::angleBetween(const Vector<Type2> &other) const;                      \
-  template double         supmath::Vector<Type1>::distanceBetween(const Vector<Type2> &other) const;                   \
+  template double         supmath::Vector<Type1>::dotProduct(const Vector<Type2> &) const;                             \
+  template double         supmath::Vector<Type1>::angleBetween(const Vector<Type2> &) const;                           \
+  template double         supmath::Vector<Type1>::distanceBetween(const Vector<Type2> &) const;                        \
   template Vector<double> supmath::Vector<Type1>::projectionOnto(const Vector<Type2> &) const;                         \
   template bool           supmath::Vector<Type1>::operator==(const Vector<Type2> &) const;                             \
   template auto supmath::operator*(const Type1, const Vector<Type2> &) -> Vector<std::common_type_t<Type1, Type2>>;

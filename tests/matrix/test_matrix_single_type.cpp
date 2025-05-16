@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "matrix.h"
+#include "matrix_enums.h"
 
 using namespace supmath;
 
@@ -91,14 +92,14 @@ TYPED_TEST_P(MatrixSingleTypeTest, MatrixInverse)
 
 TYPED_TEST_P(MatrixSingleTypeTest, MatrixRowSwap)
 {
-  this->test_matrix.swap(this->chosen_index, this->target_index, 'r');
+  this->test_matrix.swap(this->chosen_index, this->target_index, MatrixOrder::Row);
 
   ASSERT_EQ(this->test_matrix, this->expected_row_swapped);
 }
 
 TYPED_TEST_P(MatrixSingleTypeTest, MatrixColSwap)
 {
-  this->test_matrix.swap(this->chosen_index, this->target_index, 'c');
+  this->test_matrix.swap(this->chosen_index, this->target_index, MatrixOrder::Column);
 
   ASSERT_EQ(this->test_matrix, this->expected_col_swapped);
 }

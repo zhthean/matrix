@@ -11,11 +11,11 @@ project("supplement_math")
 
 #set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
 
-add_library(MyMatrix "src/matrix.cpp" "src/vector.cpp" "src/utils/matrix_func.cpp")
+add_library(MyMatrix "src/matrix.cpp" "src/vector.cpp" "src/utils/matrix_funcs.cpp")
 
 target_include_directories(MyMatrix
 	PUBLIC ${PROJECT_SOURCE_DIR}/include
-	PRIVATE ${PROJECT_SOURCE_DIR}/src/utils
+	PRIVATE ${PROJECT_SOURCE_DIR}/src
 )
 
 # Add source to this project's executable.

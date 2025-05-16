@@ -5,8 +5,10 @@
 
 namespace supmath
 {
+namespace vector_funcs
+{
 template<Numerical T, Numerical U>
-auto _multiplyVectorScalar(const T factor, const Vector<U> &vector) -> Vector<std::common_type_t<T, U>>
+auto multiplyVectorScalar(const T factor, const Vector<U> &vector) -> Vector<std::common_type_t<T, U>>
 {
   using CommonType = std::common_type_t<T, U>;
   Vector<CommonType> result(vector.getSize());
@@ -17,6 +19,7 @@ auto _multiplyVectorScalar(const T factor, const Vector<U> &vector) -> Vector<st
 
   return result;
 }
+}    // namespace vector_funcs
 }    // namespace supmath
 
 #endif    // VECTOR_FUNCS_H

@@ -3,6 +3,10 @@
 
 #include <cmath>
 
+namespace supmath
+{
+namespace comparison
+{
 template<typename T, typename U>
 bool numeric_almost_equal(T left_num, U right_num, double epsilon = 1e-9)
 {
@@ -13,5 +17,7 @@ bool numeric_almost_equal(T left_num, U right_num, double epsilon = 1e-9)
     return std::abs(left_num - right_num) <= epsilon;
   }
 }
+}    // namespace comparison
+}    // namespace supmath
 
 #endif    // COMPARISON_H

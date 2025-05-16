@@ -1,11 +1,12 @@
 #include <cmath>
+#include <stdexcept>
 #include <string>
 
 #include "exceptions/vector_exceptions.h"
 #include "vector.h"
 
-#include "comparison.h"
-#include "vector_funcs.h"
+#include "utils/comparison.h"
+#include "utils/vector_funcs.h"
 
 using namespace supmath;
 
@@ -111,7 +112,7 @@ template<Numerical T>
 template<Numerical U>
 auto supmath::Vector<T>::operator*(const U factor) const -> Vector<std::common_type_t<T, U>>
 {
-  return _multiplyVectorScalar(factor, *this);
+  return vector_funcs::multiplyVectorScalar(factor, *this);
 }
 
 template<Numerical T>
@@ -229,7 +230,7 @@ bool supmath::Vector<T>::operator==(const Vector<U> &other) const
   double epsilon = std::is_same<T, float>::value ? 1e-5 : 1e-9;
 
   for ( size_t index = 0; index < getSize(); index++ ) {
-    if ( !numeric_almost_equal(_elements[index], other[index]) ) {
+    if ( !comparison::numeric_almost_equal(_elements[index], other[index]) ) {
       return false;
     }
   }
@@ -240,7 +241,7 @@ bool supmath::Vector<T>::operator==(const Vector<U> &other) const
 template<Numerical T, Numerical U>
 auto supmath::operator*(const T factor, const Vector<U> &vector) -> Vector<std::common_type_t<T, U>>
 {
-  return _multiplyVectorScalar(factor, vector);
+  return vector_funcs::multiplyVectorScalar(factor, vector);
 }
 
 template<Numerical T>

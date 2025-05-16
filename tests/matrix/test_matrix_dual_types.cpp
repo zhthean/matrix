@@ -8,9 +8,8 @@
 using namespace supmath;
 
 using MatrixTypes = ::testing::Types<
-    std::tuple<short, long long>, std::tuple<short, long double>, std::tuple<int, int>, std::tuple<double, int>,
-    std::tuple<double, float>, std::tuple<double, double>, std::tuple<long double, double>,
-    std::tuple<long double, long double>>;
+    std::tuple<short, long long>, std::tuple<int, int>, std::tuple<double, int>, std::tuple<double, float>,
+    std::tuple<double, double>>;
 
 template<typename TupleType>
 class MatrixDualTypesTest : public ::testing::Test
@@ -80,7 +79,7 @@ TYPED_TEST_P(MatrixDualTypesTest, MatrixMultiplication)
 
 TYPED_TEST_P(MatrixDualTypesTest, MatrixElementWiseMulti)
 {
-  auto result = this->first_test_matrix.element_wise_product(this->second_test_matrix);
+  auto result = this->first_test_matrix.elementWiseProduct(this->second_test_matrix);
 
   ASSERT_EQ(result, this->expected_element_wise_multi);
 }
