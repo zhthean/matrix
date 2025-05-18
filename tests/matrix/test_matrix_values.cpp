@@ -4,18 +4,22 @@
 
 #include "exceptions/matrix_exceptions.h"
 #include "matrix.h"
+#include "matrix_enums.h"
 #include "matrix_test_data.h"
 
-class MatrixAdditionPositiveTest
-    : public ::testing::TestWithParam<
-          std::tuple<supp_math::Matrix<double>, supp_math::Matrix<int>, supp_math::Matrix<double>>> {};
+using namespace supmath;
 
-TEST_P(MatrixAdditionPositiveTest, MatrixAddition) {
-  auto first_test_martix = std::get<0>(GetParam());
+class MatrixAdditionPositiveTest :
+    public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>, Matrix<double>>>
+{};
+
+TEST_P(MatrixAdditionPositiveTest, MatrixAddition)
+{
+  auto first_test_martix  = std::get<0>(GetParam());
   auto second_test_matrix = std::get<1>(GetParam());
-  auto expected_result = std::get<2>(GetParam());
+  auto expected_result    = std::get<2>(GetParam());
 
-  auto result = first_test_martix + second_test_matrix;
+  auto result             = first_test_martix + second_test_matrix;
 
   EXPECT_EQ(result, expected_result);
 }
@@ -32,13 +36,14 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixAdditionNegativeTest
-    : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>, supp_math::Matrix<int>>> {};
-TEST_P(MatrixAdditionNegativeTest, MatrixAddition) {
-  auto first_test_martix = std::get<0>(GetParam());
+class MatrixAdditionNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>>>
+{};
+TEST_P(MatrixAdditionNegativeTest, MatrixAddition)
+{
+  auto first_test_martix  = std::get<0>(GetParam());
   auto second_test_matrix = std::get<1>(GetParam());
 
-  EXPECT_THROW(first_test_martix + second_test_matrix, supp_math::MatrixMismatchException);
+  EXPECT_THROW(first_test_martix + second_test_matrix, MatrixMismatchException);
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -49,16 +54,17 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixSubtractionPositiveTest
-    : public ::testing::TestWithParam<
-          std::tuple<supp_math::Matrix<double>, supp_math::Matrix<int>, supp_math::Matrix<double>>> {};
+class MatrixSubtractionPositiveTest :
+    public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>, Matrix<double>>>
+{};
 
-TEST_P(MatrixSubtractionPositiveTest, MatrixSubtraction) {
-  auto first_test_martix = std::get<0>(GetParam());
+TEST_P(MatrixSubtractionPositiveTest, MatrixSubtraction)
+{
+  auto first_test_martix  = std::get<0>(GetParam());
   auto second_test_matrix = std::get<1>(GetParam());
-  auto expected_result = std::get<2>(GetParam());
+  auto expected_result    = std::get<2>(GetParam());
 
-  auto result = first_test_martix - second_test_matrix;
+  auto result             = first_test_martix - second_test_matrix;
 
   EXPECT_EQ(result, expected_result);
 }
@@ -75,13 +81,14 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixSubtractionNegativeTest
-    : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>, supp_math::Matrix<int>>> {};
-TEST_P(MatrixSubtractionNegativeTest, MatrixSubtraction) {
-  auto first_test_martix = std::get<0>(GetParam());
+class MatrixSubtractionNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>>>
+{};
+TEST_P(MatrixSubtractionNegativeTest, MatrixSubtraction)
+{
+  auto first_test_martix  = std::get<0>(GetParam());
   auto second_test_matrix = std::get<1>(GetParam());
 
-  EXPECT_THROW(first_test_martix - second_test_matrix, supp_math::MatrixMismatchException);
+  EXPECT_THROW(first_test_martix - second_test_matrix, MatrixMismatchException);
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -92,16 +99,17 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixMultiplicationPositiveTest
-    : public ::testing::TestWithParam<
-          std::tuple<supp_math::Matrix<double>, supp_math::Matrix<int>, supp_math::Matrix<double>>> {};
+class MatrixMultiplicationPositiveTest :
+    public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>, Matrix<double>>>
+{};
 
-TEST_P(MatrixMultiplicationPositiveTest, MatrixMultiplication) {
-  auto first_test_martix = std::get<0>(GetParam());
+TEST_P(MatrixMultiplicationPositiveTest, MatrixMultiplication)
+{
+  auto first_test_martix  = std::get<0>(GetParam());
   auto second_test_matrix = std::get<1>(GetParam());
-  auto expected_result = std::get<2>(GetParam());
+  auto expected_result    = std::get<2>(GetParam());
 
-  auto result = first_test_martix * second_test_matrix;
+  auto result             = first_test_martix * second_test_matrix;
 
   EXPECT_EQ(result, expected_result);
 }
@@ -120,13 +128,14 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixMultiplicationNegativeTest
-    : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>, supp_math::Matrix<int>>> {};
-TEST_P(MatrixMultiplicationNegativeTest, MatrixMultiplication) {
-  auto first_test_martix = std::get<0>(GetParam());
+class MatrixMultiplicationNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>>>
+{};
+TEST_P(MatrixMultiplicationNegativeTest, MatrixMultiplication)
+{
+  auto first_test_martix  = std::get<0>(GetParam());
   auto second_test_matrix = std::get<1>(GetParam());
 
-  EXPECT_THROW(first_test_martix * second_test_matrix, supp_math::MatrixMismatchException);
+  EXPECT_THROW(first_test_martix * second_test_matrix, MatrixMismatchException);
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -137,14 +146,16 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixLeftScalarMultiPositiveTest
-    : public ::testing::TestWithParam<std::tuple<double, supp_math::Matrix<int>, supp_math::Matrix<double>>> {};
-TEST_P(MatrixLeftScalarMultiPositiveTest, MatrixLeftScalarMulti) {
-  auto test_scalar = std::get<0>(GetParam());
-  auto test_matrix = std::get<1>(GetParam());
+class MatrixLeftScalarMultiPositiveTest :
+    public ::testing::TestWithParam<std::tuple<double, Matrix<int>, Matrix<double>>>
+{};
+TEST_P(MatrixLeftScalarMultiPositiveTest, MatrixLeftScalarMulti)
+{
+  auto test_scalar     = std::get<0>(GetParam());
+  auto test_matrix     = std::get<1>(GetParam());
   auto expected_result = std::get<2>(GetParam());
 
-  auto result = test_scalar * test_matrix;
+  auto result          = test_scalar * test_matrix;
 
   EXPECT_EQ(result, expected_result);
 }
@@ -157,14 +168,16 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixRightScalarMultiPositiveTest
-    : public ::testing::TestWithParam<std::tuple<double, supp_math::Matrix<int>, supp_math::Matrix<double>>> {};
-TEST_P(MatrixRightScalarMultiPositiveTest, MatrixRightScalarMulti) {
-  auto test_scalar = std::get<0>(GetParam());
-  auto test_matrix = std::get<1>(GetParam());
+class MatrixRightScalarMultiPositiveTest :
+    public ::testing::TestWithParam<std::tuple<double, Matrix<int>, Matrix<double>>>
+{};
+TEST_P(MatrixRightScalarMultiPositiveTest, MatrixRightScalarMulti)
+{
+  auto test_scalar     = std::get<0>(GetParam());
+  auto test_matrix     = std::get<1>(GetParam());
   auto expected_result = std::get<2>(GetParam());
 
-  auto result = test_matrix * test_scalar;
+  auto result          = test_matrix * test_scalar;
 
   EXPECT_EQ(result, expected_result);
 }
@@ -177,16 +190,17 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixElementWisePositiveTest
-    : public ::testing::TestWithParam<
-          std::tuple<supp_math::Matrix<double>, supp_math::Matrix<int>, supp_math::Matrix<double>>> {};
+class MatrixElementWisePositiveTest :
+    public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>, Matrix<double>>>
+{};
 
-TEST_P(MatrixElementWisePositiveTest, MatrixElementWise) {
-  auto first_test_martix = std::get<0>(GetParam());
+TEST_P(MatrixElementWisePositiveTest, MatrixElementWise)
+{
+  auto first_test_martix  = std::get<0>(GetParam());
   auto second_test_matrix = std::get<1>(GetParam());
-  auto expected_result = std::get<2>(GetParam());
+  auto expected_result    = std::get<2>(GetParam());
 
-  auto result = first_test_martix.element_wise_product(second_test_matrix);
+  auto result             = first_test_martix.elementWiseProduct(second_test_matrix);
 
   EXPECT_EQ(result, expected_result);
 }
@@ -203,13 +217,14 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixElementWiseNegativeTest
-    : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>, supp_math::Matrix<int>>> {};
-TEST_P(MatrixElementWiseNegativeTest, MatrixElementWise) {
-  auto first_test_martix = std::get<0>(GetParam());
+class MatrixElementWiseNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<int>>>
+{};
+TEST_P(MatrixElementWiseNegativeTest, MatrixElementWise)
+{
+  auto first_test_martix  = std::get<0>(GetParam());
   auto second_test_matrix = std::get<1>(GetParam());
 
-  EXPECT_THROW(first_test_martix.element_wise_product(second_test_matrix), supp_math::MatrixMismatchException);
+  EXPECT_THROW(first_test_martix.elementWiseProduct(second_test_matrix), MatrixMismatchException);
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -220,14 +235,15 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixTransposePositiveTest
-    : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>, supp_math::Matrix<double>>> {};
+class MatrixTransposePositiveTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<double>>>
+{};
 
-TEST_P(MatrixTransposePositiveTest, MatrixTranspose) {
-  auto test_martix = std::get<0>(GetParam());
+TEST_P(MatrixTransposePositiveTest, MatrixTranspose)
+{
+  auto test_martix     = std::get<0>(GetParam());
   auto expected_result = std::get<1>(GetParam());
 
-  auto result = test_martix.transpose();
+  auto result          = test_martix.transpose();
 
   EXPECT_EQ(result, expected_result);
 }
@@ -241,13 +257,15 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixDeterminantPositiveTest : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>, double>> {};
+class MatrixDeterminantPositiveTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, double>>
+{};
 
-TEST_P(MatrixDeterminantPositiveTest, MatrixDeterminant) {
-  auto test_martix = std::get<0>(GetParam());
+TEST_P(MatrixDeterminantPositiveTest, MatrixDeterminant)
+{
+  auto test_martix     = std::get<0>(GetParam());
   auto expected_result = std::get<1>(GetParam());
 
-  auto result = test_martix.determinant();
+  auto result          = test_martix.determinant();
 
   EXPECT_DOUBLE_EQ(result, expected_result);
 }
@@ -263,12 +281,14 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixDeterminantNegativeTest : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>>> {};
+class MatrixDeterminantNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>>>
+{};
 
-TEST_P(MatrixDeterminantNegativeTest, MatrixDeterminant) {
+TEST_P(MatrixDeterminantNegativeTest, MatrixDeterminant)
+{
   auto test_martix = std::get<0>(GetParam());
 
-  EXPECT_THROW(test_martix.determinant(), supp_math::MatrixNonSquareException);
+  EXPECT_THROW(test_martix.determinant(), MatrixNonSquareException);
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -276,14 +296,15 @@ INSTANTIATE_TEST_SUITE_P(
     ::testing::Values(std::make_tuple(sample_double_3x2), std::make_tuple(sample_double_2x3))
 );
 
-class MatrixInversePositiveTest
-    : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>, supp_math::Matrix<double>>> {};
+class MatrixInversePositiveTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, Matrix<double>>>
+{};
 
-TEST_P(MatrixInversePositiveTest, MatrixInverse) {
-  auto test_martix = std::get<0>(GetParam());
+TEST_P(MatrixInversePositiveTest, MatrixInverse)
+{
+  auto test_martix     = std::get<0>(GetParam());
   auto expected_result = std::get<1>(GetParam());
 
-  auto result = test_martix.inverse();
+  auto result          = test_martix.inverse();
 
   EXPECT_EQ(result, expected_result);
 }
@@ -298,12 +319,14 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-class MatrixInverseNegativeTest : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>>> {};
+class MatrixInverseNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>>>
+{};
 
-TEST_P(MatrixInverseNegativeTest, MatrixInverse) {
+TEST_P(MatrixInverseNegativeTest, MatrixInverse)
+{
   auto test_martix = std::get<0>(GetParam());
 
-  EXPECT_THROW(test_martix.inverse(), supp_math::MatrixNonSquareException);
+  EXPECT_THROW(test_martix.inverse(), MatrixNonSquareException);
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -311,22 +334,24 @@ INSTANTIATE_TEST_SUITE_P(
     ::testing::Values(std::make_tuple(sample_double_3x2), std::make_tuple(sample_double_2x3))
 );
 
-TEST(MatrixInverseSingularTest, MatrixInverse) {
-  EXPECT_THROW(sample_singular_double_3x3.inverse(), supp_math::MatrixNonInvertibleException);
+TEST(MatrixInverseSingularTest, MatrixInverse)
+{
+  EXPECT_THROW(sample_singular_double_3x3.inverse(), MatrixNonInvertibleException);
 }
 
-class MatrixSwapPositiveTest
-    : public ::testing::TestWithParam<
-          std::tuple<supp_math::Matrix<double>, unsigned int, unsigned int, char, supp_math::Matrix<double>>> {};
+class MatrixSwapPositiveTest :
+    public ::testing::TestWithParam<std::tuple<Matrix<double>, size_t, size_t, MatrixOrder, Matrix<double>>>
+{};
 
-TEST_P(MatrixSwapPositiveTest, MatrixSwap) {
-  auto test_martix = std::get<0>(GetParam());
-  auto chosen_index = std::get<1>(GetParam());
-  auto target_index = std::get<2>(GetParam());
-  auto axis = std::get<3>(GetParam());
+TEST_P(MatrixSwapPositiveTest, MatrixSwap)
+{
+  auto test_martix     = std::get<0>(GetParam());
+  auto chosen_index    = std::get<1>(GetParam());
+  auto target_index    = std::get<2>(GetParam());
+  auto order           = std::get<3>(GetParam());
   auto expected_result = std::get<4>(GetParam());
 
-  test_martix.swap(chosen_index, target_index, axis);
+  test_martix.swap(chosen_index, target_index, order);
 
   EXPECT_EQ(test_martix, expected_result);
 }
@@ -334,38 +359,48 @@ TEST_P(MatrixSwapPositiveTest, MatrixSwap) {
 INSTANTIATE_TEST_SUITE_P(
     MatrixSwapPositiveTest, MatrixSwapPositiveTest,
     ::testing::Values(
-        std::make_tuple(sample_double_3x3, sample_chosen_index, sample_target_index, 'r', expected_swap_row_3x3),
-        std::make_tuple(sample_double_3x2, sample_chosen_index, sample_target_index, 'r', expected_swap_row_3x2),
-        std::make_tuple(sample_double_2x3, sample_chosen_index, sample_target_index, 'r', expected_swap_row_2x3),
-        std::make_tuple(sample_double_3x3, sample_chosen_index, sample_target_index, 'c', expected_swap_col_3x3),
-        std::make_tuple(sample_double_3x2, sample_chosen_index, sample_target_index, 'c', expected_swap_col_3x2),
-        std::make_tuple(sample_double_2x3, sample_chosen_index, sample_target_index, 'c', expected_swap_col_2x3)
+        std::make_tuple(
+            sample_double_3x3, sample_chosen_index, sample_target_index, MatrixOrder::Row, expected_swap_row_3x3
+        ),
+        std::make_tuple(
+            sample_double_3x2, sample_chosen_index, sample_target_index, MatrixOrder::Row, expected_swap_row_3x2
+        ),
+        std::make_tuple(
+            sample_double_2x3, sample_chosen_index, sample_target_index, MatrixOrder::Row, expected_swap_row_2x3
+        ),
+        std::make_tuple(
+            sample_double_3x3, sample_chosen_index, sample_target_index, MatrixOrder::Column, expected_swap_col_3x3
+        ),
+        std::make_tuple(
+            sample_double_3x2, sample_chosen_index, sample_target_index, MatrixOrder::Column, expected_swap_col_3x2
+        ),
+        std::make_tuple(
+            sample_double_2x3, sample_chosen_index, sample_target_index, MatrixOrder::Column, expected_swap_col_2x3
+        )
     )
 );
 
-class MatrixSwapNegativeTest
-    : public ::testing::TestWithParam<std::tuple<supp_math::Matrix<double>, unsigned int, unsigned int, char>> {};
+class MatrixSwapNegativeTest : public ::testing::TestWithParam<std::tuple<Matrix<double>, size_t, size_t, MatrixOrder>>
+{};
 
-TEST_P(MatrixSwapNegativeTest, MatrixSwap) {
-  auto test_martix = std::get<0>(GetParam());
+TEST_P(MatrixSwapNegativeTest, MatrixSwap)
+{
+  auto test_martix  = std::get<0>(GetParam());
   auto chosen_index = std::get<1>(GetParam());
   auto target_index = std::get<2>(GetParam());
-  auto axis = std::get<3>(GetParam());
+  auto order        = std::get<3>(GetParam());
 
-  EXPECT_THROW(test_martix.swap(chosen_index, target_index, axis), std::out_of_range);
+  EXPECT_THROW(test_martix.swap(chosen_index, target_index, order), std::out_of_range);
 }
 
 INSTANTIATE_TEST_SUITE_P(
     MatrixSwapNegativeTest, MatrixSwapNegativeTest,
     ::testing::Values(
-        std::make_tuple(sample_double_3x3, 0, 4, 'r'), std::make_tuple(sample_double_3x2, 4, 1, 'r'),
-        std::make_tuple(sample_double_2x3, 4, 5, 'r'), std::make_tuple(sample_double_3x3, 0, 4, 'c'),
-        std::make_tuple(sample_double_3x2, 4, 1, 'c'), std::make_tuple(sample_double_2x3, 4, 5, 'c')
+        std::make_tuple(sample_double_3x3, 0, 4, MatrixOrder::Row),
+        std::make_tuple(sample_double_3x2, 4, 1, MatrixOrder::Row),
+        std::make_tuple(sample_double_2x3, 4, 5, MatrixOrder::Row),
+        std::make_tuple(sample_double_3x3, 0, 4, MatrixOrder::Column),
+        std::make_tuple(sample_double_3x2, 4, 1, MatrixOrder::Column),
+        std::make_tuple(sample_double_2x3, 4, 5, MatrixOrder::Column)
     )
 );
-
-TEST(MatrixSwapInvalidAxisTest, MatrixSwap) {
-  auto test_martix = sample_double_3x2;
-
-  EXPECT_THROW(test_martix.swap(0, 1, 'a'), std::invalid_argument);
-}

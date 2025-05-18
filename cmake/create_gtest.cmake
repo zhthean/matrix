@@ -1,4 +1,4 @@
-function(add_gtest)
+function(create_gtest)
   set(options OPTIONAL)
   set(oneValueArgs NAME LIBRARY)
   set(multiValueArgs FILES ADDITIONAL_HEADER ADDITIONAL_LIBRARIES )
@@ -7,7 +7,11 @@ function(add_gtest)
   )
 
   if(NOT arg_NAME OR NOT arg_FILES)
-    message(FATAL_ERROR "NAME and FILES must be specified for add_gtest.")
+    message(FATAL_ERROR "NAME and FILES must be specified for create_gtest.")
+  endif()
+
+  if(NOT DEFINED GTEST_FOUND)
+    message(FATAL_ERROR "GTest package is not found")
   endif()
 
    add_executable(${arg_NAME} ${arg_FILES})

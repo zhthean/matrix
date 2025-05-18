@@ -4,24 +4,38 @@
 #include <stdexcept>
 #include <string>
 
-class VectorException : public std::runtime_error {
+namespace supmath
+{
+class VectorException : public std::runtime_error
+{
 public:
   explicit VectorException(const std::string &msg) : std::runtime_error(msg) {}
 };
 
-class VectorInconsistentDimensionException : public VectorException {
+class VectorInconsistentDimensionException : public VectorException
+{
 public:
   explicit VectorInconsistentDimensionException(const std::string &msg) : VectorException(msg) {}
 };
 
-class UnsupportVectorSizeException : public VectorException {
+class UnsupportVectorSizeException : public VectorException
+{
 public:
   explicit UnsupportVectorSizeException(const std::string &msg) : VectorException(msg) {}
 };
 
-class ZeroMagnitudeException : public VectorException {
+class ZeroMagnitudeException : public VectorException
+{
 public:
   explicit ZeroMagnitudeException(const std::string &msg) : VectorException(msg) {}
 };
 
-#endif // VECTOR_EXCEPTIONS_H
+class MatrixVectorSizeMismatchException : public VectorException
+{
+public:
+  explicit MatrixVectorSizeMismatchException(const std::string &msg) : VectorException(msg) {}
+};
+
+}    // namespace supmath
+
+#endif    // VECTOR_EXCEPTIONS_H

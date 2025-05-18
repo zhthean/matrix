@@ -4,36 +4,43 @@
 #include <stdexcept>
 #include <string>
 
-namespace supp_math {
-class MatrixExceptions : public std::runtime_error {
+namespace supmath
+{
+class MatrixExceptions : public std::runtime_error
+{
 public:
   explicit MatrixExceptions(const std::string &msg) : std::runtime_error(msg) {}
 };
 
-class InvalidMatrixDimensionException : public MatrixExceptions {
+class InvalidMatrixDimensionException : public MatrixExceptions
+{
 public:
   explicit InvalidMatrixDimensionException(const std::string &msg) : MatrixExceptions(msg) {}
 };
 
-class MatrixMismatchException : public MatrixExceptions {
+class MatrixMismatchException : public MatrixExceptions
+{
 public:
   explicit MatrixMismatchException(const std::string &msg) : MatrixExceptions(msg) {}
 };
 
-class MatrixNonSquareException : public MatrixExceptions {
+class MatrixNonSquareException : public MatrixExceptions
+{
 public:
   explicit MatrixNonSquareException(const std::string &msg) : MatrixExceptions(msg) {}
 };
 
-class MatrixSingularException : public MatrixExceptions {
+class MatrixSingularException : public MatrixExceptions
+{
 public:
   explicit MatrixSingularException(const std::string &msg) : MatrixExceptions(msg) {}
 };
 
-class MatrixNonInvertibleException : public MatrixExceptions {
+class MatrixNonInvertibleException : public MatrixExceptions
+{
 public:
   explicit MatrixNonInvertibleException(const std::string &msg) : MatrixExceptions(msg) {}
 };
-} // namespace supp_math
+}    // namespace supmath
 
-#endif // MATRIX_EXCEPTIONS_H
+#endif    // MATRIX_EXCEPTIONS_H
