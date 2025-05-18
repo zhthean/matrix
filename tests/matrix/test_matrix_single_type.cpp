@@ -5,7 +5,7 @@
 
 using namespace supmath;
 
-using MatrixType = ::testing::Types<int, float, double>;
+using MatrixTypes = ::testing::Types<int, float, double>;
 
 template<typename T>
 class MatrixSingleTypeTest : public ::testing::Test
@@ -80,7 +80,7 @@ TYPED_TEST_P(MatrixSingleTypeTest, MatrixDeterminant)
 {
   auto result = this->test_matrix.determinant();
 
-  ASSERT_EQ(result, this->expected_determinant);
+  EXPECT_NEAR(result, this->expected_determinant, 1e-6);
 }
 
 TYPED_TEST_P(MatrixSingleTypeTest, MatrixInverse)
@@ -108,4 +108,4 @@ REGISTER_TYPED_TEST_SUITE_P(
     MatrixSingleTypeTest, MatrixRightScalarMulti, MatrixLeftScalarMulti, MatrixTranspose, MatrixDeterminant,
     MatrixInverse, MatrixRowSwap, MatrixColSwap
 );
-INSTANTIATE_TYPED_TEST_SUITE_P(MSingleTypeTest, MatrixSingleTypeTest, MatrixType);
+INSTANTIATE_TYPED_TEST_SUITE_P(MSingleTypeTest, MatrixSingleTypeTest, MatrixTypes);

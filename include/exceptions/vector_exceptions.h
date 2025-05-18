@@ -29,6 +29,13 @@ class ZeroMagnitudeException : public VectorException
 public:
   explicit ZeroMagnitudeException(const std::string &msg) : VectorException(msg) {}
 };
+
+class MatrixVectorSizeMismatchException : public VectorException
+{
+public:
+  explicit MatrixVectorSizeMismatchException(const std::string &msg) : VectorException(msg) {}
+};
+
 }    // namespace supmath
 
 #endif    // VECTOR_EXCEPTIONS_H

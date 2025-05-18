@@ -1,6 +1,7 @@
 #ifndef VECTOR_FUNCS_H
 #define VECTOR_FUNCS_H
 
+#include "matrix.h"
 #include "vector.h"
 
 namespace supmath

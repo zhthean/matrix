@@ -1,27 +1,20 @@
 ﻿cmake_minimum_required (VERSION 3.29)
 
-set(CMAKE_C_STANDARD 17)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 project("supplement_math")
+set(LIBRARY_NAME "SupMath")
 
 #set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
 
-add_library(MyMatrix "src/matrix.cpp" "src/vector.cpp" "src/utils/matrix_funcs.cpp")
+add_library(${LIBRARY_NAME} "src/matrix.cpp" "src/vector.cpp" "src/utils/matrix_funcs.cpp")
 
-target_include_directories(MyMatrix
+target_include_directories(${LIBRARY_NAME}
 	PUBLIC ${PROJECT_SOURCE_DIR}/include
 	PRIVATE ${PROJECT_SOURCE_DIR}/src
 )
-
-# Add source to this project's executable.
-add_executable (matrix "src/main.cpp")
-
-target_link_libraries(matrix PRIVATE MyMatrix)
 
 option(ENABLE_TESTS "Enable or disable test cases" OFF)
 

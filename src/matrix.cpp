@@ -226,8 +226,8 @@ double supmath::Matrix<T>::determinant() const
 
   try {
     auto [eliminated_matrix, nu_swaps] = matrix_funcs::gaussianElimination(*this);
-    std::cout << eliminated_matrix << std::endl;
-    double det = 1;
+
+    double det                         = 1;
     for ( size_t pivot = 0; pivot < _row_size; pivot++ ) {
       det *= eliminated_matrix[pivot][pivot];
     }

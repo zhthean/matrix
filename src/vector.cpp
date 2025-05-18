@@ -117,6 +117,29 @@ auto supmath::Vector<T>::operator*(const U factor) const -> Vector<std::common_t
 
 template<Numerical T>
 template<Numerical U>
+auto supmath::Vector<T>::operator*(const Matrix<U> &matrix) const -> Vector<std::common_type_t<T, U>>
+{
+  if ( getSize() != matrix.getRowSize() ) {
+    throw MatrixVectorSizeMismatchException(
+        "A " + std::to_string(matrix.getRowSize()) + "x" + std::to_string(matrix.getColSize())
+        + " matrix cannot multiply with a right-sided vector of size " + std::to_string(getSize())
+    );
+  }
+
+  using CommonType = std::common_type_t<T, U>;
+  Vector<CommonType> result(getSize());
+
+  for ( size_t pivot = 0; pivot < matrix.getColSize(); ++pivot ) {
+    for ( size_t index = 0; index < getSize(); ++index ) {
+      result[pivot] += _elements[index] * matrix[index][pivot];
+    }
+  }
+
+  return result;
+}
+
+template<Numerical T>
+template<Numerical U>
 auto supmath::Vector<T>::crossProduct(const Vector<U> &other) const -> Vector<std::common_type_t<T, U>>
 {
   if ( getSize() != 3 && other.getSize() != 3 ) {
@@ -259,6 +282,28 @@ template<Numerical T, Numerical U>
 auto supmath::operator*(const T factor, const Vector<U> &vector) -> Vector<std::common_type_t<T, U>>
 {
   return vector_funcs::multiplyVectorScalar(factor, vector);
+}
+
+template<Numerical T, Numerical U>
+auto supmath::operator*(const Matrix<T> &matrix, const Vector<U> &vector) -> Vector<std::common_type_t<T, U>>
+{
+  if ( vector.getSize() != matrix.getColSize() ) {
+    throw MatrixVectorSizeMismatchException(
+        "A " + std::to_string(matrix.getRowSize()) + "x" + std::to_string(matrix.getColSize())
+        + " matrix cannot multiply with a right-sided vector of size " + std::to_string(vector.getSize())
+    );
+  }
+
+  using CommonType = std::common_type_t<T, U>;
+  Vector<CommonType> result(vector.getSize());
+
+  for ( size_t pivot = 0; pivot < matrix.getRowSize(); ++pivot ) {
+    for ( size_t index = 0; index < vector.getSize(); ++index ) {
+      result[pivot] += vector[index] * matrix[pivot][index];
+    }
+  }
+
+  return result;
 }
 
 template<Numerical T>
