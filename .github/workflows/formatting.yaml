@@ -1,0 +1,59 @@
+name: Format Code
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  clang-format:
+    name: Clang Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Clang Format
+        run: |
+          sudo apt update
+          sudo apt install wget gpg -y
+          sudo add-apt-repository 'deb http://apt.llvm.org/noble/ llvm-toolchain-noble-20 main'
+          wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+          sudo apt update
+          sudo apt install -y clang-format-19
+          sudo ln -sf /usr/bin/clang-format-19 /usr/local/bin/clang-format
+
+      - name: Pull Branch
+        run: |
+          git pull origin ${GITHUB_HEAD_REF} --rebase
+
+      - name: Check Code Format
+        id: check_format
+        run: |
+          files=$(find . -type f \( -name '*.cpp' -o -name '*.h' \))
+          if [ -n "$files" ]; then
+            clang-format --dry-run --Werror $files
+          fi
+
+      - name: Fix Format (if needed)
+        if: failure() && steps.check_format.outcome == 'failure'
+        run: |
+          files=$(find . -type f \( -name '*.cpp' -o -name '*.h' \))
+          if [ -n "$files" ]; then
+            clang-format -i $files
+          fi
+
+      - name: Push Changes
+        if: failure() && steps.check_format.outcome == 'failure'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Auto formatting code" || echo "No changes to commit"
+          git push origin HEAD:${GITHUB_HEAD_REF}
